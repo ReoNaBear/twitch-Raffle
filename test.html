@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    .slot-machine {
+
+      position: relative;
+    }
+    .layer {
+      width: 150px;
+      height: 50px;
+      display: flex;
+      position: absolute;
+      text-align: center;
+      line-height: 50px;
+    }
+    
+    .numbers {
+      width: 50px;
+      text-align: center;
+      line-height: 50px;
+      margin-left: 100px;
+      position: relative;
+      animation-duration:0.4s;
+      
+    }
+    .animate {
+      animation-iteration-count: infinite;
+      animation-name:loop;
+      animation-timing-function: linear;
+    }
+    .names {
+      margin-left: 0px;
+      text-align: center;
+      line-height: 50px;
+      position: relative;
+      
+      animation-duration:0.8s;
+
+    }
+    .number {
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+    }
+    .name{
+      width: 250px;
+      height: 50px;
+      border: 1px solid black;
+    }
+    /*.type-start {
+      transform: rotateX(90deg);
+      top: -30%;
+      position: absolute;
+    }
+    .type-one {
+      transform: rotateX(60deg);
+      position: absolute;
+
+    }
+    .type-two {
+      transform: rotateX(30deg);
+      top: 72%;
+      transition: top 0.13s linear;
+      transition: transform 0.13s linear;
+      position: absolute;
+    }
+    .type-three {
+      transform: rotateX(0deg);
+      top: 172%;
+      transition: top 0.13s linear;
+      transition: transform 0.13s linear;
+      position: absolute;
+    }
+    .type-four {
+      transform: rotateX(-30deg);
+      top: 270%;
+      transition: top 0.13s linear;
+      transition: transform 0.13s linear;
+      position: absolute;
+    }
+    .type-five {
+      transform: rotateX(-60deg);
+      top: 343%;
+      position: absolute;
+
+
+    }
+    .type-end {
+      transform: rotateX(-90deg);
+      top: 350%;
+      position: absolute;
+
+    } */
+    .banners {
+      width: 100%;
+      height: 150px;
+      background-color: transparent;
+      position: absolute;
+      z-index: 1;
+      display: flex;
+    }
+    .right-banner{
+      width: 100px;
+      height: 100%;
+      background-color: beige;
+    }
+    .left-banner{
+      width: 100px;
+      background-color: beige;
+      height: 100%;
+    }
+    .center-banner {
+      width: 300px;
+      background-color: transparent;
+      height: 100%;
+    }
+    .top {
+      width: 100%;
+      height: 50px;
+      background-color: black;
+    }
+
+    .bottom {
+      width: 100%;
+      height: 50px;
+      background-color: black;
+    }
+    .slot-item {
+      display: flex;
+    }
+    .slot-btn {
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes loop {
+      from{
+        top:-90%;
+      }
+      to{
+        top:10%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="slot-machine">
+    <div class="banners">
+      <div class="left-banner"></div>
+      <div class="center-banner">
+        <div class="top"></div>
+        <div style="height: 50px;"></div>
+        <div class="bottom"></div>
+      </div>
+      <div class="right-banner"></div>
+    </div>
+    <div class="slot-item">
+      <div class="numbers">
+        <div class="number ">0</div>
+        <div class="number ">號碼</div>
+        
+      </div>
+      <div class="names">
+        <div class="name ">0</div>
+        <div class="name ">幸運兒</div>
+      </div>
+      
+    </div>
+    <div class="slot-btn">點我</div>
+    <!-- <div class="layer type-one">
+      <div class="number">1</div>
+      <div class="name">1</div>
+    </div>
+    <div class="layer type-two">
+      <div class="number">2</div>
+      <div class="name">2</div>
+    </div>
+    <div class="layer type-three">
+      <div class="number">3</div>
+      <div class="name">3</div>
+    </div>
+    <div class="layer type-four">
+      <div class="number">4</div>
+      <div class="name">4</div>
+    </div>
+    <div class="layer type-five">
+      <div class="number">5</div>
+      <div class="name">5</div>
+    </div>
+    <div class="layer type-end">
+      <div class="number">6</div>
+      <div class="name">6</div>
+    </div>
+    <div class="layer type-end">
+      <div class="number">7</div>
+      <div class="name">7</div>
+    </div>
+    <div class="layer type-end">
+      <div class="number">8</div>
+      <div class="name">8</div>
+    </div>
+    <div class="layer type-end">
+      <div class="number">9</div>
+      <div class="name">9</div>
+    </div>
+    <div class="layer type-end">
+      <div class="number">10</div>
+      <div class="name">10</div>
+    </div> -->
+  </div>
+  
+</body>
+<script>
+  let numbers = document.querySelector('.numbers')
+  let names = document.querySelector('.names')
+  let slot = document.querySelector('.slot-item')
+
+  
+
+  let slotBtn = document.querySelector('.slot-btn')
+  slotBtn.addEventListener('click',function() {
+    numbers.innerHTML = `
+      <div class="number ">0</div>
+      <div class="number ">1</div>
+      <div class="number ">2</div>
+      <div class="number ">3</div>
+      <div class="number ">4</div>
+      <div class="number ">5</div>
+      <div class="number ">6</div>
+      <div class="number ">7</div>
+      <div class="number ">8</div>
+      <div class="number ">9</div>`
+    
+    names.innerHTML = `<div class="name "></div>
+      <div class="name ">採鳥仙人_歪利(aa640725)</div>
+      <div class="name ">果果的長頸鹿(qazed1132)</div>
+      <div class="name ">Divide1234</div>
+      <div class="name ">gamaniab</div>
+      <div class="name ">心閒(Heartstrs)</div>
+      <div class="name ">老實(magui_6)</div>
+      <div class="name ">老實(magui_6)</div>
+      <div class="name ">老實(magui_6)</div>
+      <div class="name ">老實(magui_6)</div>
+      <div class="name ">老實(magui_6)</div>`
+
+  let number = document.querySelectorAll('.number')
+
+        numbers.style.height = `${number.length *50 }px`
+  slot.style.height = `${number.length *50 }px`
+    numbers.classList.add('animate')
+    names.classList.add('animate')
+  })
+  
+
+
+  // slotBtn.addEventListener('mouseover',function(){
+  //   let number = document.querySelectorAll('.number')
+  //   let winnerPosistion = Math.ceil(Math.random() * (number.length - 1))
+  //   console.log(winnerPosistion);
+  //   for (let i = 1; i <= (number.length) * 3; i++) {
+  //     let count  = 0
+  //     if (i % number.length === winnerPosistion % number.length) {
+  //       count = count + 1
+  //     }
+  //     rotate()
+  //   }
+  // })
+
+  // async function  rotate() {
+  //   // let numbers = document.querySelectorAll('.number')
+  //   let start = document.querySelector('.number.type-start')
+  //   let one = document.querySelector('.number.type-one')
+  //   let two = document.querySelector('.number.type-two')
+  //   let three = document.querySelector('.number.type-three')
+  //   let four = document.querySelector('.number.type-four')
+  //   let five = document.querySelector('.number.type-five')
+  //   let ends = document.querySelectorAll('.number.type-end')
+  //   let end = ends[ends.length-1]
+  //   console.log(end);
+  //   classChange(start,0)
+  //   classChange(one,1)
+  //   classChange(two,2)
+  //   classChange(three,3)
+  //   classChange(four,4)
+  //   classChange(five,5)
+  //   classChange(end,6)
+  // }
+  // function classChange(element,number) {
+  //   const types = ['type-start','type-one','type-two','type-three','type-four','type-five','type-end']
+  //   if (number != 6)
+  //   {
+  //     element.classList.remove(types[number])
+  //     element.classList.add(types[number+1])
+  //   } else {
+  //     element.classList.remove(types[number])
+  //     element.classList.add(types[0])
+  //   }
+  //   console.log(element);
+  // }
+</script>
+</html>

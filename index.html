@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Link Swiper's CSS -->
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
+/>
+  <title>熊熊的圖奇抽獎小網站</title>
+  <style>
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>阿熊的抽獎小網</h1>
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div>資料轉換區</div>
+        <div>小提示: 可以直接複製Excel或Google試算表喔</div>
+        <textarea class="inputArea" name="excelInput" id="excelInput" cols="30" rows="10" placeholder="請輸入 名字 + 數量
+      ex:
+      參加者A 2
+      參加者B 5"></textarea>
+        <button class="multipleTransformBtn">轉換</button>
+      </div>
+      <div class="swiper-slide">
+        <textarea readonly class="multipleTransform" name="multipleTransform" id="multipleTransform" cols="30" rows="10" placeholder="結果會顯示為
+      1 參加者A
+      2 參加者A
+      1 參加者B
+      2 參加者B
+      3 參加者B
+      4 參加者B
+      5 參加者B"></textarea>
+      </div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+      <div class="swiper-slide">Slide 8</div>
+      <div class="swiper-slide">Slide 9</div>
+    </div>
+  </div>
+
+  
+  
+
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      watchSlidesProgress: true,
+      slidesPerView: 2,
+    });
+  </script>
+  
+  <script>
+  
+    let excelInputArea = document.querySelector('.inputArea')
+    let multipleTransform = document.querySelector('.multipleTransform')
+    let multipleTransformBtn = document.querySelector('.multipleTransformBtn')
+  
+    multipleTransformBtn.addEventListener('click',function() {
+      let excelData = excelInputArea.value
+      let seperate = excelData.trim().split(/\s+/)
+      let complicateData = seperate
+      seperate.forEach((e,index) => {
+        // let lastINT = ''
+        // let reg = /^[1-9]+[0-9]*]*$/
+        
+        // if(reg.test(e)) {
+  
+        // }
+        // console.log(typeof e);
+        if(e.split("")[0] == '('){
+          complicateData[index-1] = complicateData[index-1] + e
+          complicateData.splice(index,1)
+        }
+      });
+  
+      let finalData = ''
+      for (let i = 0; i < complicateData.length; i+=2) {
+        for (let j = 1; j <= complicateData[i+1]; j++) {
+          finalData = finalData + `${j} ${complicateData[i]}\n`
+        }
+      }
+      multipleTransform.innerHTML = finalData
+    })
+  
+  </script>
+</body>
+
+</嘔
