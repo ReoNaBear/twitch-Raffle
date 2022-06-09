@@ -9,11 +9,11 @@
   rel="stylesheet"
   href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
 />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <title>熊熊的圖奇抽獎小網站</title>
   <style>
     body {
@@ -47,20 +47,32 @@
       margin-top: 20px;
     }
     canvas{
-      background: #eee;
-      height: 200px;
+      background: #ffffff;
+      height: 360px;
       width: 100%;
       left: 0;
       top: 0;
     }
-    .slot-machine {
-      margin-left: 55px;
+    .slot-machine{
+      margin-left: calc(10%/6);
+      width: 85%;
+    }
+    .auto-icon,
+    .hand-icon {
+      position: absolute;
+      right: 2%;
+      top: 1%;
+      font-size: 28px;
+    }
+    .disable {
+      display: none;
     }
   </style>
 </head>
 <body>
+  
   <div class="title">阿熊的抽獎小網</div>
-  <div class="row" style="justify-content: space-around;">
+  <div class="row" style="justify-content: space-around; width: 100%;">
     <div class="col-4">
       <div class="card">
         <h3 class="card-title"><i class="fa-solid fa-table"></i>  資料轉換區</h3>
@@ -69,14 +81,18 @@
           ex:
           參加者A 2
           參加者B 5"></textarea>
-        <button type="button" class="btn btn-outline-info multipleTransformBtn" >轉換</button>
+        <button type="button" onclick="outputDrawlList()" class="btn btn-outline-info multipleTransformBtn" >轉換</button>
       </div>
     </div>
     <div class="col-4">
-      <div class="card">
-        <h3 class="card-title" onclick="look()"><i class="fa-solid fa-list-ol"></i>  抽獎名單!</h3>
-        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  可從左邊轉換也可以自行輸入</h5>
-        <textarea  class="multipleTransform" name="multipleTransform" id="multipleTransform" cols="30" rows="10" placeholder="格式為
+      
+      <div class="card auto-input">
+        <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  待抽獎名單!</h3>
+        <div class="auto-icon" onclick="modeChange('auto')">
+          <i class="fa-solid fa-laptop-code"></i>
+        </div>
+        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  可從左邊轉換也可以自行輸入(點擊右上角切換)</h5>
+        <textarea readonly  class="hand-multipleTransform" name="multipleTransform" id="multipleTransform" cols="30" rows="10" placeholder="格式為
           1 參加者A
           2 參加者A
           1 參加者B
@@ -87,16 +103,30 @@
           (寫在同一行會視為一張票)"></textarea>
         <button type="button" class="copy btn btn-outline-info multipleTransformBtn" onclick="copy()">複製名單</button>
       </div>
+      <div class="card hand-input disable">
+        <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  待抽獎名單!(手動模式)</h3>
+        <div class="hand-icon" onclick="modeChange('hand')">
+          <i class="fa-regular fa-hand"></i>
+        </div>
+        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  自動轉換的名單將不會一起被統計</h5>
+        <textarea  class="multipleTransform hand" name="multipleTransform" id="multipleTransform" cols="30" rows="12" placeholder="格式為
+          1 手打1號
+          2 手打1號
+          1 手打好累
+          2 手打好累
+          3 手打好累
+          (寫在同一行會視為一張票)"></textarea>
+      </div>
     </div>
     <div class="col-4">
       <div class="card">
-        <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  抽獎名單!</h3>
+        <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  中獎名單!</h3>
         <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  可從上面轉換也可以自行輸入</h5>
       
       </div>
     </div>
   </div>
-  <div class="col-11" >
+  <div class="col-12" >
     <div class="card slot-machine">
       <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  抽獎拉霸機!</h3>
       <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
@@ -108,131 +138,205 @@
   
   
 
-  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-  <script>
-    var swiper = new Swiper(".mySwiper", {
-      watchSlidesProgress: true,
-      slidesPerView: 2,
-    });
-  </script>
-  
-  <script>
-  
+</body>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    watchSlidesProgress: true,
+    slidesPerView: 2,
+  });
+</script>
+
+<script>
+  function modeChange(mode) {
+    let auto = document.querySelector('.auto-input')
+    let hand = document.querySelector('.hand-input')
+    auto.classList.remove('disable')
+    hand.classList.remove('disable')
+    if( mode === 'auto')
+    {
+      auto.classList.add('disable')
+    } else {
+      hand.classList.add('disable')
+    }
+  }
+  function outputDrawlList() {
     let excelInputArea = document.querySelector('.inputArea')
     let multipleTransform = document.querySelector('.multipleTransform')
-    let multipleTransformBtn = document.querySelector('.multipleTransformBtn')
-  
-    multipleTransformBtn.addEventListener('click',function() {
-      let excelData = excelInputArea.value
-      let seperate = excelData.trim().split(/\s+/)
-      let complicateData = seperate
-      seperate.forEach((e,index) => {
+    let excelData = excelInputArea.value
+    let seperate = excelData.trim().split(/\s+/)
+    let complicateData = seperate
 
-        if(e.split("")[0] == '('){
-          complicateData[index-1] = complicateData[index-1] + e
-          complicateData.splice(index,1)
-        }
-      });
-  
-      let finalData = ''
-      for (let i = 0; i < complicateData.length; i+=2) {
-        for (let j = 1; j <= complicateData[i+1]; j++) {
-          finalData = finalData + `${j} ${complicateData[i]}\n`
-        }
+    seperate.forEach((e,index) => {
+      if(e.split("")[0] == '('){
+        complicateData[index-1] = complicateData[index-1] + e
+        complicateData.splice(index,1)
       }
-      multipleTransform.innerHTML = finalData
-    })
-
-    function copy() {
-      document.querySelector('.multipleTransform').select()
-      document.execCommand('Copy')
-    }
-
-    function look() {
-      let value = document.querySelector('.multipleTransform')
-      console.log(value.value.split(/[(\r\n)\r\n]+/));
-    }
-  
-  </script>
-
-  <script>
-    
-    let text = '歡迎使用拉霸機!!!';  // The message displayed
-    let chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890() ';  // All possible Charactrers
-    let scale = 40;  // Font size and overall scale
-    let breaks = 0.003;  // Speed loss per frame
-    let endSpeed = 0.05;  // Speed at which the letter stops
-    let firstLetter = 250;  // Number of frames untill the first letter stopps (60 frames per second)
-    let delay = 30;  // Number of frames between letters stopping
-
-
-
-    canvas = document.querySelector('canvas');
-    ctx = canvas.getContext('2d');
-    chars = chars+text
-    let winner = text.split('');
-    let words = chars.split('');
-    let wordMap = [];
-    let offset = [];
-    let offsetV = [];
-
-    for(let i=0;i < words.length; i++){
-      if (!wordMap[words[i]]) {
-        wordMap[words[i]] = i;
-      }
-    }
-
-    for(let i=0; i < winner.length; i++){
-      let f = firstLetter + delay * i;
-      offsetV[i] = endSpeed+breaks*f;
-      offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
-    }
-
-    (onresize = function(){
-      canvas.width = canvas.clientWidth-10;
-      canvas.height = canvas.clientHeight-10;
-    })();
-
-    requestAnimationFrame(loop = function(){
-      ctx.setTransform(1,0,0,1,0,0);
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = '#622';
-      ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
-      for(var i=0;i<text.length;i++){
-        ctx.fillStyle = '#ccc';
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
-        ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
-        var o = offset[i];
-        while(o<0)o++;
-        o %= 1;
-        var h = Math.ceil(canvas.height/2/scale)
-        for(var j=-h;j<h;j++){
-          var c = wordMap[text[i]]+j-Math.floor(offset[i]);
-          while(c<0)c+=words.length;
-          c %= words.length;
-          var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
-          ctx.globalAlpha = s
-          ctx.font = scale*s + 'px Helvetica'
-          ctx.fillText(words[c],scale*i,(j+o+0.1)*scale);
-        }
-        offset[i] += offsetV[i];
-        offsetV[i] -= breaks;
-        if(offsetV[i]<endSpeed){
-          offset[i] = 0;
-          offsetV[i] = 0;
-        }
-      }
-      
-      requestAnimationFrame(loop);
     });
 
-    function play() {
-    text = '罐子_ナ(kankona0616)';
+    let finalData = ''
+    let drawlList = []
+    for (let i = 0; i < complicateData.length; i+=2) {
+      for (let j = 1; j <= complicateData[i+1]; j++) {
+        finalData = finalData + `${j} ${complicateData[i]}\n`
+        drawlList.push(`${j} ${complicateData[i]}`)
+      }
+    }
+    multipleTransform.innerHTML = finalData
+    console.log(multipleTransform);
+
+    shuffle(drawlList)
+  }
+
+  // let multipleTransform = document.querySelector('.multipleTransform')
+  // let multipleTransformBtn = document.querySelector('.multipleTransformBtn')
+
+  // multipleTransformBtn.addEventListener('click',function() {
+  //   let excelData = excelInputArea.value
+  //   let seperate = excelData.trim().split(/\s+/)
+  //   let complicateData = seperate
+  //   seperate.forEach((e,index) => {
+
+  //     if(e.split("")[0] == '('){
+  //       complicateData[index-1] = complicateData[index-1] + e
+  //       complicateData.splice(index,1)
+  //     }
+  //   });
+
+  //   let finalData = ''
+  //   let drawlList = []
+  //   for (let i = 0; i < complicateData.length; i+=2) {
+  //     for (let j = 1; j <= complicateData[i+1]; j++) {
+  //       finalData = finalData + `${j} ${complicateData[i]}\n`
+  //       drawlList.push(`${j} ${complicateData[i]}`)
+  //     }
+  //   }
+  //   multipleTransform.innerHTML = finalData
+  //   shuffle(drawlList)
+  // })
+
+  function getDrawlList() {
+    let multipleTransform = document.querySelector('.multipleTransform').value.trim().split(/\s+/)
+    let multipleTransformHand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
+    let newList = []
+    if(multipleTransformHand[0] !== ''){
+      newList = multipleTransformHand
+      console.log(newList);
+      alert('現在使用的為手動填寫的名單')
+    } else {
+      newList = multipleTransform
+      alert('現在使用的為自動填寫的名單')
+      
+    }
+    console.log(newList);
+    return newList
+  }
+  function copy() {
+    document.querySelector('.multipleTransform').select()
+    document.execCommand('Copy')
+  }
+
+  // Fisher-Yates Shuffle
+  function shuffle(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+  }
+
+
+  // 拉霸區
+
+  // axios.get(`https://www.random.org/integers/?num=0&min=1&max=${drawlList.length-1}&col=1&base=10&format=html&rnd=new`)
+  //   .then((e)=>{console.log(e);})
+
+  let text = '歡迎使用拉霸機!!!';  // The message displayed
+  let chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890() ';  // All possible Charactrers
+  let scale = 40;  // Font size and overall scale
+  let breaks = 0.003;  // Speed loss per frame
+  let endSpeed = 0.05;  // Speed at which the letter stops
+  let firstLetter = 250;  // Number of frames untill the first letter stopps (60 frames per second)
+  let delay = 30;  // Number of frames between letters stopping
+
+
+
+  canvas = document.querySelector('canvas');
+  ctx = canvas.getContext('2d');
+  chars = chars+text
+  let winner = text.split('');
+  let words = chars.split('');
+  let wordMap = [];
+  let offset = [];
+  let offsetV = [];
+
+  shuffle(words)
+
+  for(let i=0;i < words.length; i++){
+    if (!wordMap[words[i]]) {
+      wordMap[words[i]] = i;
+    }
+  }
+  
+  for(let i=0; i < winner.length; i++){
+    let f = firstLetter + delay * i;
+    offsetV[i] = endSpeed+breaks*f;
+    offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
+  }
+
+  (onresize = function(){
+    canvas.width = canvas.clientWidth-10;
+    canvas.height = canvas.clientHeight-10;
+  })();
+
+  requestAnimationFrame(loop = function(){
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = '#622';
+    ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
+    for(var i=0;i<text.length;i++){
+      ctx.fillStyle = '#ccc';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
+      var o = offset[i];
+      while(o<0)o++;
+      o %= 1;
+      var h = Math.ceil(canvas.height/2/scale)
+      for(var j=-h;j<h;j++){
+        var c = wordMap[text[i]]+j-Math.floor(offset[i]);
+        while(c<0)c+=words.length;
+        c %= words.length;
+        var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
+        ctx.globalAlpha = s
+        ctx.font = scale*s + 'px Helvetica'
+        ctx.fillText(words[c],scale*i,(j+o+0.1)*scale);
+      }
+      offset[i] += offsetV[i];
+      offsetV[i] -= breaks;
+      if(offsetV[i]<endSpeed){
+        offset[i] = 0;
+        offsetV[i] = 0;
+      }
+    }
+    
+    requestAnimationFrame(loop);
+  });
+
+  function play() {
+    let drawlList = getDrawlList()
+    if(drawlList === ['']){
+      // alert('請先輸入待抽獎名單')
+      text = 'Na姊生日超級大快樂!!!'
+    }
+    else{
+      text = '巴巴線撐住RRRRRRRRRRRR';
+    }
     chars = chars+text
     winner = text.split('');
     words = chars.split('');
+    shuffle(words)
     wordMap = [];
     offset = [];
     offsetV = [];
@@ -256,9 +360,9 @@
 
     requestAnimationFrame(loop = function(){
       ctx.setTransform(1,0,0,1,0,0);
-      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.clearRect(0,0,canvas.width,(canvas.height+100));
       ctx.globalAlpha = 1;
-      ctx.fillStyle = '#843195';
+      ctx.fillStyle = '#622';
       ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
       for(var i=0;i<text.length;i++){
         ctx.fillStyle = '#ccc';
@@ -276,7 +380,7 @@
           var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
           ctx.globalAlpha = s
           ctx.font = scale*s + 'px Helvetica'
-          ctx.fillText(words[c],scale*i,(j+o+0.1)*scale);
+          ctx.fillText(words[c],scale*i,(j+o+0.05)*scale);
         }
         offset[i] += offsetV[i];
         offsetV[i] -= breaks;
@@ -287,9 +391,17 @@
       }
       
       requestAnimationFrame(loop);
-    });
-  }
-  </script>
-</body>
+    }
+  );
+}
 
-</嘔
+
+</script>
+
+<script>
+  
+
+
+</script>
+
+</html>
