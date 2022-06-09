@@ -39,6 +39,7 @@
       background-color: antiquewhite;
       line-height: 50px;
       font-size: 25px;
+      border-radius: 12px 12px 0px 0px;
     }
     .col-4{
       width: 30%;
@@ -52,6 +53,8 @@
       width: 100%;
       left: 0;
       top: 0;
+      border-radius: 0px 0px 12px 12px;
+
     }
     .slot-machine{
       margin-left: calc(10%/6);
@@ -66,6 +69,13 @@
     }
     .disable {
       display: none;
+    }
+    .btn {
+      line-height: 2.2;
+      border-radius: 0px 0px 12px 12px;
+    }
+    .multipleTransform.hand{
+      border-radius: 0px 0px 12px 12px;
     }
   </style>
 </head>
@@ -88,11 +98,11 @@
       
       <div class="card auto-input">
         <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  待抽獎名單!</h3>
-        <div class="auto-icon" onclick="modeChange('auto')">
+        <div class="auto-icon" onclick="modeChange()">
           <i class="fa-solid fa-laptop-code"></i>
         </div>
         <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  可從左邊轉換也可以自行輸入(點擊右上角切換)</h5>
-        <textarea readonly  class="hand-multipleTransform" name="multipleTransform" id="multipleTransform" cols="30" rows="10" placeholder="格式為
+        <textarea readonly  class="multipleTransform auto" name="multipleTransform" id="multipleTransform" cols="30" rows="10" placeholder="格式為
           1 參加者A
           2 參加者A
           1 參加者B
@@ -105,7 +115,7 @@
       </div>
       <div class="card hand-input disable">
         <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  待抽獎名單!(手動模式)</h3>
-        <div class="hand-icon" onclick="modeChange('hand')">
+        <div class="hand-icon" onclick="modeChange()">
           <i class="fa-regular fa-hand"></i>
         </div>
         <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  自動轉換的名單將不會一起被統計</h5>
@@ -149,18 +159,44 @@
 </script>
 
 <script>
-  function modeChange(mode) {
+  let nowMode = 'auto'
+  function modeChange() {
     let auto = document.querySelector('.auto-input')
     let hand = document.querySelector('.hand-input')
     auto.classList.remove('disable')
     hand.classList.remove('disable')
-    if( mode === 'auto')
+    if( nowMode === 'auto')
     {
       auto.classList.add('disable')
+      nowMode = 'hand'
     } else {
       hand.classList.add('disable')
+      nowMode = 'auto'
     }
   }
+  function makeDrawlList(array,index) {
+      let finalData = ''
+      let drawlList = []
+      console.log(array);
+      if(index === 1){
+        for (let i = 0; i < array.length; i+=2) {
+          console.log(i);
+          for (let j = 1; j <= array[i+1]; j++) {
+            console.log(j);
+            finalData = finalData + `${j} ${array[i]}\n`
+            drawlList.push(`${j} ${array[i]}`)
+            console.log(drawlList);
+          }
+        }
+        return [finalData, drawlList]
+      } else{
+        for (let i = 0; i < array.length; i+=2) {
+          drawlList.push(`${array[i]} ${array[i+1]}`)
+          console.log(drawlList);
+        }
+        return drawlList
+      }
+    }
   function outputDrawlList() {
     let excelInputArea = document.querySelector('.inputArea')
     let multipleTransform = document.querySelector('.multipleTransform')
@@ -175,61 +211,25 @@
       }
     });
 
-    let finalData = ''
-    let drawlList = []
-    for (let i = 0; i < complicateData.length; i+=2) {
-      for (let j = 1; j <= complicateData[i+1]; j++) {
-        finalData = finalData + `${j} ${complicateData[i]}\n`
-        drawlList.push(`${j} ${complicateData[i]}`)
-      }
-    }
+    let [finalData, drawlList] = makeDrawlList(complicateData,1)
     multipleTransform.innerHTML = finalData
-    console.log(multipleTransform);
-
     shuffle(drawlList)
   }
 
-  // let multipleTransform = document.querySelector('.multipleTransform')
-  // let multipleTransformBtn = document.querySelector('.multipleTransformBtn')
-
-  // multipleTransformBtn.addEventListener('click',function() {
-  //   let excelData = excelInputArea.value
-  //   let seperate = excelData.trim().split(/\s+/)
-  //   let complicateData = seperate
-  //   seperate.forEach((e,index) => {
-
-  //     if(e.split("")[0] == '('){
-  //       complicateData[index-1] = complicateData[index-1] + e
-  //       complicateData.splice(index,1)
-  //     }
-  //   });
-
-  //   let finalData = ''
-  //   let drawlList = []
-  //   for (let i = 0; i < complicateData.length; i+=2) {
-  //     for (let j = 1; j <= complicateData[i+1]; j++) {
-  //       finalData = finalData + `${j} ${complicateData[i]}\n`
-  //       drawlList.push(`${j} ${complicateData[i]}`)
-  //     }
-  //   }
-  //   multipleTransform.innerHTML = finalData
-  //   shuffle(drawlList)
-  // })
-
   function getDrawlList() {
-    let multipleTransform = document.querySelector('.multipleTransform').value.trim().split(/\s+/)
-    let multipleTransformHand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
     let newList = []
-    if(multipleTransformHand[0] !== ''){
-      newList = multipleTransformHand
-      console.log(newList);
+    if(nowMode === 'hand'){
+      let hand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
+      newList = makeDrawlList(hand, 2)
       alert('現在使用的為手動填寫的名單')
     } else {
-      newList = multipleTransform
-      alert('現在使用的為自動填寫的名單')
-      
+      let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
+      newList = makeDrawlList(auto, 2)
+      // 
+      // newList = makeDrawlList(auto)
+      // console.log(newList);
+      // alert('現在使用的為自動填寫的名單')
     }
-    console.log(newList);
     return newList
   }
   function copy() {
@@ -248,8 +248,7 @@
 
   // 拉霸區
 
-  // axios.get(`https://www.random.org/integers/?num=0&min=1&max=${drawlList.length-1}&col=1&base=10&format=html&rnd=new`)
-  //   .then((e)=>{console.log(e);})
+  
 
   let text = '歡迎使用拉霸機!!!';  // The message displayed
   let chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890() ';  // All possible Charactrers
@@ -323,77 +322,88 @@
     
     requestAnimationFrame(loop);
   });
-
+  async function getNumber(drawlList) {
+    
+  }
   function play() {
     let drawlList = getDrawlList()
-    if(drawlList === ['']){
-      // alert('請先輸入待抽獎名單')
-      text = 'Na姊生日超級大快樂!!!'
-    }
-    else{
-      text = '巴巴線撐住RRRRRRRRRRRR';
-    }
-    chars = chars+text
-    winner = text.split('');
-    words = chars.split('');
-    shuffle(words)
-    wordMap = [];
-    offset = [];
-    offsetV = [];
-
-    for(let i=0;i < words.length; i++){
-      if (!wordMap[words[i]]) {
-        wordMap[words[i]] = i;
-      }
-    }
-
-    for(let i=0; i < winner.length; i++){
-      let f = firstLetter + delay * i;
-      offsetV[i] = endSpeed+breaks*f;
-      offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
-    }
-
-    (onresize = function(){
-      canvas.width = canvas.clientWidth-10;
-      canvas.height = canvas.clientHeight-10;
-    })();
-
-    requestAnimationFrame(loop = function(){
-      ctx.setTransform(1,0,0,1,0,0);
-      ctx.clearRect(0,0,canvas.width,(canvas.height+100));
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = '#622';
-      ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
-      for(var i=0;i<text.length;i++){
-        ctx.fillStyle = '#ccc';
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
-        ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
-        var o = offset[i];
-        while(o<0)o++;
-        o %= 1;
-        var h = Math.ceil(canvas.height/2/scale)
-        for(var j=-h;j<h;j++){
-          var c = wordMap[text[i]]+j-Math.floor(offset[i]);
-          while(c<0)c+=words.length;
-          c %= words.length;
-          var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
-          ctx.globalAlpha = s
-          ctx.font = scale*s + 'px Helvetica'
-          ctx.fillText(words[c],scale*i,(j+o+0.05)*scale);
-        }
-        offset[i] += offsetV[i];
-        offsetV[i] -= breaks;
-        if(offsetV[i]<endSpeed){
-          offset[i] = 0;
-          offsetV[i] = 0;
-        }
-      }
+    let http = `https://www.random.org/integers/?num=1&min=0&max=${drawlList.length-1}&col=1&base=10&format=plain&rnd=new`
+    axios.get(http)
+      .then(e => {
+        return e.data
+      })
+        .then(data => {
+          if(!data){
+            alert('請先輸入待抽獎名單')
+            text = 'Na姊生日超級大快樂!!!'
+          }
+          else{
+            text = drawlList[data]
+          }
+          chars = chars+text
+          winner = text.split('');
+          words = chars.split('');
+          shuffle(words)
+          wordMap = [];
+          offset = [];
+          offsetV = [];
       
-      requestAnimationFrame(loop);
-    }
-  );
-}
+          for(let i=0;i < words.length; i++){
+            if (!wordMap[words[i]]) {
+              wordMap[words[i]] = i;
+            }
+          }
+      
+          for(let i=0; i < winner.length; i++){
+            let f = firstLetter + delay * i;
+            offsetV[i] = endSpeed+breaks*f;
+            offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
+          }
+      
+          (onresize = function(){
+            canvas.width = canvas.clientWidth-10;
+            canvas.height = canvas.clientHeight-10;
+          })();
+      
+          requestAnimationFrame(loop = function(){
+            ctx.setTransform(1,0,0,1,0,0);
+            ctx.clearRect(0,0,canvas.width,(canvas.height+100));
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = '#622';
+            ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
+            for(var i=0;i<text.length;i++){
+              ctx.fillStyle = '#ccc';
+              ctx.textBaseline = 'middle';
+              ctx.textAlign = 'center';
+              ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
+              var o = offset[i];
+              while(o<0)o++;
+              o %= 1;
+              var h = Math.ceil(canvas.height/2/scale)
+              for(var j=-h;j<h;j++){
+                var c = wordMap[text[i]]+j-Math.floor(offset[i]);
+                while(c<0)c+=words.length;
+                c %= words.length;
+                var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
+                ctx.globalAlpha = s
+                ctx.font = scale*s + 'px Helvetica'
+                ctx.fillText(words[c],scale*i,(j+o+0.05)*scale);
+              }
+              offset[i] += offsetV[i];
+              offsetV[i] -= breaks;
+              if(offsetV[i]<endSpeed){
+                offset[i] = 0;
+                offsetV[i] = 0;
+              }
+            }
+            
+            requestAnimationFrame(loop);
+          }
+              );
+
+        }
+      )
+  }
 
 
 </script>
