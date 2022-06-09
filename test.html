@@ -36,6 +36,9 @@
       animation-name:loop;
       animation-timing-function: linear;
     }
+    .end-animation {
+      animation-name:end;
+    }
     .names {
       margin-left: 0px;
       text-align: center;
@@ -135,6 +138,7 @@
     }
     .slot-item {
       display: flex;
+      height: 150px;
     }
     .slot-btn {
       position: relative;
@@ -142,10 +146,10 @@
     }
     @keyframes loop {
       from{
-        top:-90%;
+        top:-300%;
       }
       to{
-        top:10%;
+        top:33%;
       }
     }
 
@@ -170,6 +174,14 @@
       </div>
       <div class="names">
         <div class="name ">0</div>
+        <div class="name ">幸運兒</div>
+        <div class="name ">幸運兒</div>
+        <div class="name ">幸運兒</div>
+        <div class="name ">幸運兒</div>
+        <div class="name ">幸運兒</div>
+        <div class="name ">幸運兒</div>
+        <div class="name ">幸運兒</div>
+        <div class="name ">幸運兒</div>
         <div class="name ">幸運兒</div>
       </div>
       
@@ -240,24 +252,41 @@
       <div class="number ">9</div>`
     
     names.innerHTML = `<div class="name "></div>
-      <div class="name ">採鳥仙人_歪利(aa640725)</div>
-      <div class="name ">果果的長頸鹿(qazed1132)</div>
-      <div class="name ">Divide1234</div>
-      <div class="name ">gamaniab</div>
-      <div class="name ">心閒(Heartstrs)</div>
-      <div class="name ">老實(magui_6)</div>
-      <div class="name ">老實(magui_6)</div>
-      <div class="name ">老實(magui_6)</div>
-      <div class="name ">老實(magui_6)</div>
-      <div class="name ">老實(magui_6)</div>`
+      <div class="name ">(//●⁰౪⁰●)//</div>
+      <div class="name ">٩(✿∂‿∂✿)۶</div>
+      <div class="name "> ⋋╏ ❛ ◡ ❛ ╏⋌</div>
+      <div class="name "> ٩(;ʘ¿ʘ;)۶</div>
+      <div class="name "> ⊂(©෴©)つ</div>
+      <div class="name "> (＊☉౪ ⊙｡)</div>
+      <div class="name ">୧༼✿ ͡◕ д ◕͡ ༽୨</div>
+      <div class="name "> ლ(ʘ▽ʘ)ლ</div>
+      <div class="name "> (๑ↀᆺↀ๑)✧</div>`
 
   let number = document.querySelectorAll('.number')
 
-        numbers.style.height = `${number.length *50 }px`
-  slot.style.height = `${number.length *50 }px`
+    
+    // slot.style.height = `${number.length *50 }px`
     numbers.classList.add('animate')
     names.classList.add('animate')
+
+    setTimeout(() => {
+      endAnimation(156,'我是測試')
+    }, 4000);
   })
+
+  function endAnimation(number, name) {
+    numbers.innerHTML = `
+      <div class="number ">0</div>
+      <div class="number ">${number}</div>`
+    numbers.classList.remove('animate')
+    setTimeout(() => {
+      names.innerHTML = `<div class="name "></div>
+        <div class="name ">${name}</div>`
+      names.classList.remove('animate')
+      
+    }, 3000);
+
+  }
   
 
 

@@ -9,46 +9,101 @@
   rel="stylesheet"
   href="https://unpkg.com/swiper@8/swiper-bundle.min.css"
 />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <title>熊熊的圖奇抽獎小網站</title>
   <style>
-    .swiper {
+    body {
+      background-color: ivory;
+      margin: 0;
+      font-family: 'Noto Sans TC', sans-serif;
+
+    }
+    .title {
+      text-align: center;
+      font-size: 35px;
+      margin: 20px;
+      border: 3px solid antiquewhite;
+    }
+    .card {
+      border-radius: 12px;
+      margin: -10px 0 20px 0;
+      border: 2px solid;
+      background-color: #eee;
+    }
+    .card-title {
+      text-align: center;
+      background-color: antiquewhite;
+      line-height: 50px;
+      font-size: 25px;
+    }
+    .col-4{
+      width: 30%;
+    }
+    .col-ll {
+      margin-top: 20px;
+    }
+    canvas{
+      background: #eee;
+      height: 200px;
       width: 100%;
-      height: 100%;
+      left: 0;
+      top: 0;
+    }
+    .slot-machine {
+      margin-left: 55px;
     }
   </style>
 </head>
 <body>
-  <h1>阿熊的抽獎小網</h1>
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <div>資料轉換區</div>
-        <div>小提示: 可以直接複製Excel或Google試算表喔</div>
+  <div class="title">阿熊的抽獎小網</div>
+  <div class="row" style="justify-content: space-around;">
+    <div class="col-4">
+      <div class="card">
+        <h3 class="card-title"><i class="fa-solid fa-table"></i>  資料轉換區</h3>
+        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示: 可以直接複製Excel或Google試算表喔</h5>
         <textarea class="inputArea" name="excelInput" id="excelInput" cols="30" rows="10" placeholder="請輸入 名字 + 數量
-      ex:
-      參加者A 2
-      參加者B 5"></textarea>
-        <button class="multipleTransformBtn">轉換</button>
+          ex:
+          參加者A 2
+          參加者B 5"></textarea>
+        <button type="button" class="btn btn-outline-info multipleTransformBtn" >轉換</button>
       </div>
-      <div class="swiper-slide">
-        <textarea readonly class="multipleTransform" name="multipleTransform" id="multipleTransform" cols="30" rows="10" placeholder="結果會顯示為
-      1 參加者A
-      2 參加者A
-      1 參加者B
-      2 參加者B
-      3 參加者B
-      4 參加者B
-      5 參加者B"></textarea>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <h3 class="card-title" onclick="look()"><i class="fa-solid fa-list-ol"></i>  抽獎名單!</h3>
+        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  可從左邊轉換也可以自行輸入</h5>
+        <textarea  class="multipleTransform" name="multipleTransform" id="multipleTransform" cols="30" rows="10" placeholder="格式為
+          1 參加者A
+          2 參加者A
+          1 參加者B
+          2 參加者B
+          3 參加者B
+          4 參加者B
+          5 參加者B
+          (寫在同一行會視為一張票)"></textarea>
+        <button type="button" class="copy btn btn-outline-info multipleTransformBtn" onclick="copy()">複製名單</button>
       </div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  抽獎名單!</h3>
+        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  可從上面轉換也可以自行輸入</h5>
+      
+      </div>
     </div>
   </div>
+  <div class="col-11" >
+    <div class="card slot-machine">
+      <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  抽獎拉霸機!</h3>
+      <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
+      <canvas></canvas>
+    </div>
+  </div>
+  <button onclick="play()">aaaa</button>
 
   
   
@@ -72,13 +127,7 @@
       let seperate = excelData.trim().split(/\s+/)
       let complicateData = seperate
       seperate.forEach((e,index) => {
-        // let lastINT = ''
-        // let reg = /^[1-9]+[0-9]*]*$/
-        
-        // if(reg.test(e)) {
-  
-        // }
-        // console.log(typeof e);
+
         if(e.split("")[0] == '('){
           complicateData[index-1] = complicateData[index-1] + e
           complicateData.splice(index,1)
@@ -93,7 +142,153 @@
       }
       multipleTransform.innerHTML = finalData
     })
+
+    function copy() {
+      document.querySelector('.multipleTransform').select()
+      document.execCommand('Copy')
+    }
+
+    function look() {
+      let value = document.querySelector('.multipleTransform')
+      console.log(value.value.split(/[(\r\n)\r\n]+/));
+    }
   
+  </script>
+
+  <script>
+    
+    let text = '歡迎使用拉霸機!!!';  // The message displayed
+    let chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890() ';  // All possible Charactrers
+    let scale = 40;  // Font size and overall scale
+    let breaks = 0.003;  // Speed loss per frame
+    let endSpeed = 0.05;  // Speed at which the letter stops
+    let firstLetter = 250;  // Number of frames untill the first letter stopps (60 frames per second)
+    let delay = 30;  // Number of frames between letters stopping
+
+
+
+    canvas = document.querySelector('canvas');
+    ctx = canvas.getContext('2d');
+    chars = chars+text
+    let winner = text.split('');
+    let words = chars.split('');
+    let wordMap = [];
+    let offset = [];
+    let offsetV = [];
+
+    for(let i=0;i < words.length; i++){
+      if (!wordMap[words[i]]) {
+        wordMap[words[i]] = i;
+      }
+    }
+
+    for(let i=0; i < winner.length; i++){
+      let f = firstLetter + delay * i;
+      offsetV[i] = endSpeed+breaks*f;
+      offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
+    }
+
+    (onresize = function(){
+      canvas.width = canvas.clientWidth-10;
+      canvas.height = canvas.clientHeight-10;
+    })();
+
+    requestAnimationFrame(loop = function(){
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#622';
+      ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
+      for(var i=0;i<text.length;i++){
+        ctx.fillStyle = '#ccc';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
+        var o = offset[i];
+        while(o<0)o++;
+        o %= 1;
+        var h = Math.ceil(canvas.height/2/scale)
+        for(var j=-h;j<h;j++){
+          var c = wordMap[text[i]]+j-Math.floor(offset[i]);
+          while(c<0)c+=words.length;
+          c %= words.length;
+          var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
+          ctx.globalAlpha = s
+          ctx.font = scale*s + 'px Helvetica'
+          ctx.fillText(words[c],scale*i,(j+o+0.1)*scale);
+        }
+        offset[i] += offsetV[i];
+        offsetV[i] -= breaks;
+        if(offsetV[i]<endSpeed){
+          offset[i] = 0;
+          offsetV[i] = 0;
+        }
+      }
+      
+      requestAnimationFrame(loop);
+    });
+
+    function play() {
+    text = '罐子_ナ(kankona0616)';
+    chars = chars+text
+    winner = text.split('');
+    words = chars.split('');
+    wordMap = [];
+    offset = [];
+    offsetV = [];
+
+    for(let i=0;i < words.length; i++){
+      if (!wordMap[words[i]]) {
+        wordMap[words[i]] = i;
+      }
+    }
+
+    for(let i=0; i < winner.length; i++){
+      let f = firstLetter + delay * i;
+      offsetV[i] = endSpeed+breaks*f;
+      offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
+    }
+
+    (onresize = function(){
+      canvas.width = canvas.clientWidth-10;
+      canvas.height = canvas.clientHeight-10;
+    })();
+
+    requestAnimationFrame(loop = function(){
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#843195';
+      ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
+      for(var i=0;i<text.length;i++){
+        ctx.fillStyle = '#ccc';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
+        var o = offset[i];
+        while(o<0)o++;
+        o %= 1;
+        var h = Math.ceil(canvas.height/2/scale)
+        for(var j=-h;j<h;j++){
+          var c = wordMap[text[i]]+j-Math.floor(offset[i]);
+          while(c<0)c+=words.length;
+          c %= words.length;
+          var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
+          ctx.globalAlpha = s
+          ctx.font = scale*s + 'px Helvetica'
+          ctx.fillText(words[c],scale*i,(j+o+0.1)*scale);
+        }
+        offset[i] += offsetV[i];
+        offsetV[i] -= breaks;
+        if(offsetV[i]<endSpeed){
+          offset[i] = 0;
+          offsetV[i] = 0;
+        }
+      }
+      
+      requestAnimationFrame(loop);
+    });
+  }
   </script>
 </body>
 
