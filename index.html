@@ -14,6 +14,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
+
   <title>熊熊的圖奇抽獎小網站</title>
   <style>
     body {
@@ -60,8 +62,16 @@
       margin-left: calc(10%/6);
       width: 85%;
     }
+    .bar {
+      width: 15%;
+      position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    }
     .auto-icon,
-    .hand-icon {
+    .hand-icon,
+    .edit-icon {
       position: absolute;
       right: 2%;
       top: 1%;
@@ -109,9 +119,8 @@
           2 參加者B
           3 參加者B
           4 參加者B
-          5 參加者B
-          (寫在同一行會視為一張票)"></textarea>
-        <button type="button" class="copy btn btn-outline-info multipleTransformBtn" onclick="copy()">複製名單</button>
+          5 參加者B"></textarea>
+        <button type="button" class="copy btn btn-outline-info multipleTransformBtn" onclick="copy('participant')">複製名單</button>
       </div>
       <div class="card hand-input disable">
         <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  待抽獎名單!(手動模式)</h3>
@@ -124,24 +133,41 @@
           2 手打1號
           1 手打好累
           2 手打好累
-          3 手打好累
-          (寫在同一行會視為一張票)"></textarea>
+          3 手打好累"></textarea>
       </div>
     </div>
     <div class="col-4">
       <div class="card">
         <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  中獎名單!</h3>
-        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  可從上面轉換也可以自行輸入</h5>
-      
+        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  右上角可進入編輯模式，請先儲存再抽獎</h5>
+        <div class="edit-icon" onclick="winnerEdit()">
+          <i class="fa-solid fa-pen-to-square"></i>
+          <i class="fa-solid fa-check disable"></i>
+        </div>
+        <textarea readonly class="winnerForm" name="winnerForm" id="winnerForm" cols="30" rows="10"></textarea>
+        <textarea  class="winnerFormEdit disable" name="winnerForm" id="winnerForm" cols="30" rows="10"></textarea>
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+          <button type="button" class="copy btn btn-outline-info multipleTransformBtn deleteBtn" onclick="deleteWinnerInList()">將中獎者從抽獎名單刪除</button>
+          <button type="button" class="copy btn btn-outline-info multipleTransformBtn" onclick="copy('winner')">複製中獎者名單</button>
+          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btncheck1">自動過濾中獎者</label>
+          <label class="btn btn-outline-primary disable" for="btncheck1">正在自動過濾<br/>(再點擊即可取消)</label>
+        </div>
       </div>
     </div>
   </div>
   <div class="col-12" >
     <div class="card slot-machine">
-      <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  抽獎拉霸機!</h3>
+      <h3 class="card-title"><i class="fa-solid fa-trophy"></i>  抽獎拉霸機!</h3>
       <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
       <canvas></canvas>
     </div>
+    <div class="bar">
+      <div class="bar-item-verticle"></div>
+      <div class="bar-item-horizontal"></div>
+      <div class="bar-item-circle"></div>
+    </div>
+
   </div>
   <button onclick="play()">aaaa</button>
 
@@ -151,6 +177,9 @@
 </body>
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 <script>
   var swiper = new Swiper(".mySwiper", {
     watchSlidesProgress: true,
@@ -160,96 +189,49 @@
 
 <script>
   let nowMode = 'auto'
-  function modeChange() {
-    let auto = document.querySelector('.auto-input')
-    let hand = document.querySelector('.hand-input')
-    auto.classList.remove('disable')
-    hand.classList.remove('disable')
-    if( nowMode === 'auto')
-    {
-      auto.classList.add('disable')
-      nowMode = 'hand'
-    } else {
-      hand.classList.add('disable')
-      nowMode = 'auto'
-    }
-  }
-  function makeDrawlList(array,index) {
-      let finalData = ''
-      let drawlList = []
-      console.log(array);
-      if(index === 1){
-        for (let i = 0; i < array.length; i+=2) {
-          console.log(i);
-          for (let j = 1; j <= array[i+1]; j++) {
-            console.log(j);
-            finalData = finalData + `${j} ${array[i]}\n`
-            drawlList.push(`${j} ${array[i]}`)
-            console.log(drawlList);
-          }
-        }
-        return [finalData, drawlList]
-      } else{
-        for (let i = 0; i < array.length; i+=2) {
-          drawlList.push(`${array[i]} ${array[i+1]}`)
-          console.log(drawlList);
-        }
-        return drawlList
-      }
-    }
-  function outputDrawlList() {
-    let excelInputArea = document.querySelector('.inputArea')
-    let multipleTransform = document.querySelector('.multipleTransform')
-    let excelData = excelInputArea.value
-    let seperate = excelData.trim().split(/\s+/)
-    let complicateData = seperate
-
-    seperate.forEach((e,index) => {
-      if(e.split("")[0] == '('){
-        complicateData[index-1] = complicateData[index-1] + e
-        complicateData.splice(index,1)
-      }
-    });
-
-    let [finalData, drawlList] = makeDrawlList(complicateData,1)
-    multipleTransform.innerHTML = finalData
-    shuffle(drawlList)
-  }
-
-  function getDrawlList() {
-    let newList = []
-    if(nowMode === 'hand'){
-      let hand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
-      newList = makeDrawlList(hand, 2)
-      alert('現在使用的為手動填寫的名單')
-    } else {
-      let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
-      newList = makeDrawlList(auto, 2)
-      // 
-      // newList = makeDrawlList(auto)
-      // console.log(newList);
-      // alert('現在使用的為自動填寫的名單')
-    }
-    return newList
-  }
-  function copy() {
-    document.querySelector('.multipleTransform').select()
-    document.execCommand('Copy')
-  }
-
-  // Fisher-Yates Shuffle
-  function shuffle(list) {
-    for (let i = list.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      [list[i], list[j]] = [list[j], list[i]];
-    }
-  }
-
-
-  // 拉霸區
-
+  let winnerMode = 'read'
+  let editIcon = document.querySelector('.fa-pen-to-square')
+  let checkIcon = document.querySelector('.fa-check')
+  let winnerFormEdit = document.querySelector('.winnerFormEdit')
+  let checkbox = document.querySelector('.btn-check')
+  let winnerNames = []
+  let winnerForm = document.querySelector('.winnerForm')
   
+  toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": true,
+  "positionClass": "toast-top-center",
+  "preventDuplicates": true,
+  "onclick": null,
+  "showDuration": "200",
+  "hideDuration": "500",
+  "timeOut": "3000",
+  "extendedTimeOut": "1000",
+  "showEasing": "linear",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+  let autoFilter = false
+  checkbox.addEventListener('change',function() {
+    if (checkbox.checked) {
+      autoFilter = true
+      toastr.success('自動過濾已中獎者')
+    } else {
+      autoFilter = false
+      toastr.success('停止自動過濾')
+    }
+  })
 
+
+  winnerForm.addEventListener('change', function() {
+    winnerNames = winnerForm.value.trim().split(/\s+/)
+  })
+  
+  
+  
   let text = '歡迎使用拉霸機!!!';  // The message displayed
   let chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890() ';  // All possible Charactrers
   let scale = 40;  // Font size and overall scale
@@ -259,7 +241,7 @@
   let delay = 30;  // Number of frames between letters stopping
 
 
-
+  
   canvas = document.querySelector('canvas');
   ctx = canvas.getContext('2d');
   chars = chars+text
@@ -268,9 +250,9 @@
   let wordMap = [];
   let offset = [];
   let offsetV = [];
-
+  
   shuffle(words)
-
+  
   for(let i=0;i < words.length; i++){
     if (!wordMap[words[i]]) {
       wordMap[words[i]] = i;
@@ -282,12 +264,12 @@
     offsetV[i] = endSpeed+breaks*f;
     offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
   }
-
+  
   (onresize = function(){
     canvas.width = canvas.clientWidth-10;
     canvas.height = canvas.clientHeight-10;
   })();
-
+  
   requestAnimationFrame(loop = function(){
     ctx.setTransform(1,0,0,1,0,0);
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -322,24 +304,96 @@
     
     requestAnimationFrame(loop);
   });
-  async function getNumber(drawlList) {
-    
-  }
+
+  
+
   function play() {
     let drawlList = getDrawlList()
     let http = `https://www.random.org/integers/?num=1&min=0&max=${drawlList.length-1}&col=1&base=10&format=plain&rnd=new`
-    axios.get(http)
+    if (winnerMode === 'edit') {
+      toastr.error('請先儲存中獎者名單')
+      return
+    }else{
+      axios.get(http)
       .then(e => {
-        return e.data
-      })
-        .then(data => {
-          if(!data){
-            alert('請先輸入待抽獎名單')
-            text = 'Na姊生日超級大快樂!!!'
+          return e.data
+        })
+          .then(data => {
+            if(!data){
+              toastr.error('請先輸入待抽獎名單')
+              text = 'Na姊生日超級大快樂!!!'
+            }
+            else{
+              text = drawlList[data]
+              setTimeout(() => {
+                setWinnerList(drawlList[data])
+              }, 6000);
+            }
+            chars = chars+text
+            winner = text.split('');
+            words = chars.split('');
+            shuffle(words)
+            wordMap = [];
+            offset = [];
+            offsetV = [];
+            
+            for(let i=0;i < words.length; i++){
+              if (!wordMap[words[i]]) {
+                wordMap[words[i]] = i;
+              }
+            }
+            
+            for(let i=0; i < winner.length; i++){
+              let f = firstLetter + delay * i;
+              offsetV[i] = endSpeed+breaks*f;
+              offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
+            }
+        
+            (onresize = function(){
+              canvas.width = canvas.clientWidth-10;
+              canvas.height = canvas.clientHeight-10;
+            })();
+            
+            requestAnimationFrame(loop = function(){
+              ctx.setTransform(1,0,0,1,0,0);
+              ctx.clearRect(0,0,canvas.width,(canvas.height+100));
+              ctx.globalAlpha = 1;
+              ctx.fillStyle = '#622';
+              ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
+              for(var i=0;i<text.length;i++){
+                ctx.fillStyle = '#ccc';
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+                ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
+                var o = offset[i];
+                while(o<0)o++;
+                o %= 1;
+                var h = Math.ceil(canvas.height/2/scale)
+                for(var j=-h;j<h;j++){
+                  var c = wordMap[text[i]]+j-Math.floor(offset[i]);
+                  while(c<0)c+=words.length;
+                  c %= words.length;
+                  var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
+                  ctx.globalAlpha = s
+                  ctx.font = scale*s + 'px Helvetica'
+                  ctx.fillText(words[c],scale*i,(j+o+0.05)*scale);
+                }
+                offset[i] += offsetV[i];
+                offsetV[i] -= breaks;
+                if(offsetV[i]<endSpeed){
+                  offset[i] = 0;
+                  offsetV[i] = 0;
+                }
+              }
+              
+              requestAnimationFrame(loop);
+            }
+            );
+  
           }
-          else{
-            text = drawlList[data]
-          }
+        ).catch(e => {
+          toastr.error('請輸入抽獎名單或所有參與者皆已中獎')
+          text = 'Na姊生日超級大快樂!!!'
           chars = chars+text
           winner = text.split('');
           words = chars.split('');
@@ -347,24 +401,24 @@
           wordMap = [];
           offset = [];
           offsetV = [];
-      
+          
           for(let i=0;i < words.length; i++){
             if (!wordMap[words[i]]) {
               wordMap[words[i]] = i;
             }
           }
-      
+        
           for(let i=0; i < winner.length; i++){
             let f = firstLetter + delay * i;
             offsetV[i] = endSpeed+breaks*f;
             offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
           }
-      
+            
           (onresize = function(){
             canvas.width = canvas.clientWidth-10;
             canvas.height = canvas.clientHeight-10;
           })();
-      
+        
           requestAnimationFrame(loop = function(){
             ctx.setTransform(1,0,0,1,0,0);
             ctx.clearRect(0,0,canvas.width,(canvas.height+100));
@@ -396,16 +450,162 @@
                 offsetV[i] = 0;
               }
             }
-            
+              
             requestAnimationFrame(loop);
-          }
-              );
-
+            }
+          );
         }
       )
+    }
   }
 
+  function winnerEdit() {
+    editIcon.classList.remove('disable')
+    checkIcon.classList.remove('disable')
+    winnerFormEdit.classList.remove('disable')
+    winnerForm.classList.remove('disable')
 
+    if( winnerMode === 'read')
+    {
+      editIcon.classList.add('disable')
+      winnerMode = 'edit'
+      winnerForm.classList.add('disable')
+      toastr.info('開始編輯中獎者名單，記得儲存')
+    } else {
+      checkIcon.classList.add('disable')
+      winnerMode = 'read'
+      winnerFormEdit.classList.add('disable')
+      saveWinnerList()
+      toastr.info('成功儲存')
+    }
+  }
+
+  function setWinnerList(winner) {
+    let newWinner = winner.split(" ")
+    winnerNames.push(newWinner[1])
+    renewWinnerForm()
+  }
+
+  function renewWinnerForm() {
+    let winnerHtml = ''
+    for (let i = 0; i < winnerNames.length; i++) {
+      winnerHtml = winnerHtml + `${winnerNames[i]}\n`
+    }
+    winnerForm.innerHTML = winnerHtml
+    winnerFormEdit.value = winnerForm.value
+  }
+  function saveWinnerList() {
+    let newWinnerList = winnerFormEdit.value.trim().split(/\s+/)
+    winnerNames = newWinnerList
+    renewWinnerForm()
+  }
+
+  function modeChange() {
+    let auto = document.querySelector('.auto-input')
+    let hand = document.querySelector('.hand-input')
+    let deleteBtn = document.querySelector('.deleteBtn')
+    auto.classList.remove('disable')
+    hand.classList.remove('disable')
+    deleteBtn.classList.remove('disable')
+    if( nowMode === 'auto')
+    {
+      auto.classList.add('disable')
+      deleteBtn.classList.add('disable')
+      nowMode = 'hand'
+      toastr.info('進入手動輸入模式')
+    } else {
+      hand.classList.add('disable')
+      nowMode = 'auto'
+      toastr.info('進入自動轉換模式')
+    }
+  }
+  function makeDrawlList(array,index) {
+      let finalData = ''
+      let drawlList = []
+      if(index === 1){
+        for (let i = 0; i < array.length; i+=2) {
+          for (let j = 1; j <= array[i+1]; j++) {
+            finalData = finalData + `${j} ${array[i]}\n`
+          }
+        }
+        return finalData
+      } else{
+        for (let i = 0; i < array.length; i+=2) {
+          if (!autoFilter || !winnerNames.includes(array[i+1])) {
+            drawlList.push(`${array[i]} ${array[i+1]}`)
+          }
+        }
+        return drawlList
+      }
+    }
+  function outputDrawlList() {
+    let excelInputArea = document.querySelector('.inputArea')
+    let multipleTransform = document.querySelector('.multipleTransform')
+    let excelData = excelInputArea.value
+    let seperate = excelData.trim().split(/\s+/)
+    let complicateData = seperate
+  
+    seperate.forEach((e,index) => {
+      if(e.split("")[0] == '('){
+        complicateData[index-1] = complicateData[index-1] + e
+        complicateData.splice(index,1)
+      }
+    });
+  
+    let finalData = makeDrawlList(complicateData,1)
+    multipleTransform.innerHTML = finalData
+  }
+  
+  function getDrawlList() {
+    let newList = []
+    if(nowMode === 'hand'){
+      let hand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
+      newList = makeDrawlList(hand, 2)
+    } else {
+      let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
+      newList = makeDrawlList(auto, 2)
+    }
+    return newList
+  }
+  function copy(e) {
+    if(e === 'participant'){
+      document.querySelector('.multipleTransform').select()
+      document.execCommand('Copy')
+      toastr.success('成功複製抽獎者名單')
+    }else if (e === 'winner') {
+      document.querySelector('.winnerForm').select()
+      document.execCommand('Copy')
+      toastr.success('成功複製中獎者名單')
+    }
+  }
+
+  function deleteWinnerInList() {
+    if(winnerMode === 'read'){
+      if(nowMode === 'auto'){
+        let data = ''
+        let form = document.querySelector('.multipleTransform.auto')
+        let array = form.value.trim().split(/\s+/)
+        for (let i = 0; i < array.length; i+=2) {
+          if (!winnerNames.includes(array[i+1])) {
+            data = data + `${array[i]} ${array[i+1]}\n`
+          }
+        }
+        form.innerHTML = data
+      }
+    }else {
+      toastr.error('請先儲存中獎者名單')
+    }
+  }
+  
+  // Fisher-Yates Shuffle
+  function shuffle(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+  }
+          
+          
 </script>
 
 <script>
