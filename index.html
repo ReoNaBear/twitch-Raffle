@@ -419,7 +419,6 @@
   function play() {
     playAnimation()
     let drawlList = getDrawlList()
-    console.log(drawlList);
     let http = `https://www.random.org/integers/?num=1&min=0&max=${drawlList.length-1}&col=1&base=10&format=plain&rnd=new`
     if (winnerMode === 'edit') {
       toastr.error('請先儲存中獎者名單')
@@ -430,7 +429,6 @@
           return e.data
         })
           .then(data => {
-            console.log(data);
             if(!data){
               toastr.error('請先輸入待抽獎名單')
               text = 'Na姊生日超級大快樂!!!'
@@ -644,7 +642,6 @@
       let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
       newList = makeDrawlList(auto, 2)
     }
-    console.log(newList.length);
     shuffle(newList)
     return newList
   }
