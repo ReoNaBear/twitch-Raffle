@@ -22,7 +22,6 @@
       background-color: ivory;
       margin: 0;
       font-family: 'Noto Sans TC', sans-serif;
-
     }
     .title {
       text-align: center;
@@ -63,11 +62,12 @@
       width: 85%;
     }
     .bar {
-      width: 15%;
+      width: 13%;
       position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      cursor: pointer;
     }
     .auto-icon,
     .hand-icon,
@@ -76,6 +76,8 @@
       right: 2%;
       top: 1%;
       font-size: 28px;
+      cursor: pointer;
+
     }
     .disable {
       display: none;
@@ -86,6 +88,67 @@
     }
     .multipleTransform.hand{
       border-radius: 0px 0px 12px 12px;
+    }
+    .bar-item {
+      position: absolute;
+      left: 29%;
+      top: 10%;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+    .bar-item-circle {
+      height: 55px;
+      width: 55px;
+      border-radius: 50%;
+      background: #45e622;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+
+      position: relative;
+    }
+    .bar-item-verticle{
+      margin-top: -20px;
+      position: relative;
+      z-index: 0;
+      transform: rotateX(70deg);
+    }
+
+    .ellipse {
+        width: 20px;
+        height: 20px; 
+        background: deepskyblue;
+        border-radius: 50px;
+        
+    }
+
+    .rectangle {
+        width: 20px;
+        height: 600px;
+        position: absolute;
+        opacity: 0.6;
+        background: deepskyblue;
+        top: 0;
+        left: 0; 
+        border-radius: 50px;
+        z-index: -1;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+    }
+    .rotate {
+      position: absolute;
+      left: 48%;
+      top: 63%;
+      transform: rotate(90deg);
+    }
+    .bar-item-connector{
+      position: absolute;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      transform: rotateX(70deg);
+
+    }
+    .bar-item-connector .rectangle {
+      height: 333px;
     }
   </style>
 </head>
@@ -156,20 +219,29 @@
       </div>
     </div>
   </div>
-  <div class="col-12" >
+  <div class="col-12 row" >
     <div class="card slot-machine">
       <h3 class="card-title"><i class="fa-solid fa-trophy"></i>  抽獎拉霸機!</h3>
       <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
       <canvas></canvas>
     </div>
-    <div class="bar">
-      <div class="bar-item-verticle"></div>
-      <div class="bar-item-horizontal"></div>
-      <div class="bar-item-circle"></div>
+    <div class="bar" onclick="play()">
+      <div class="bar-item">
+        <div class="bar-item-verticle">
+          <div class="ellipse"></div>
+          <div class="rectangle"></div>
+        </div>
+        <div class="bar-item-circle"></div>
+      </div>
+      <div class="rotate">
+        <div class="bar-item-connector">
+          <div class="ellipse"></div>
+          <div class="rectangle"></div>
+        </div>
+      </div>
     </div>
 
   </div>
-  <button onclick="play()">aaaa</button>
 
   
   
@@ -519,6 +591,17 @@
       toastr.info('進入自動轉換模式')
     }
   }
+  function getDrawlList() {
+    let newList = []
+    if(nowMode === 'hand'){
+      let hand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
+      newList = makeDrawlList(hand, 2)
+    } else {
+      let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
+      newList = makeDrawlList(auto, 2)
+    }
+    return newList
+  }
   function makeDrawlList(array,index) {
       let finalData = ''
       let drawlList = []
@@ -556,17 +639,7 @@
     multipleTransform.innerHTML = finalData
   }
   
-  function getDrawlList() {
-    let newList = []
-    if(nowMode === 'hand'){
-      let hand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
-      newList = makeDrawlList(hand, 2)
-    } else {
-      let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
-      newList = makeDrawlList(auto, 2)
-    }
-    return newList
-  }
+  
   function copy(e) {
     if(e === 'participant'){
       document.querySelector('.multipleTransform').select()
@@ -607,11 +680,4 @@
           
           
 </script>
-
-<script>
-  
-
-
-</script>
-
 </html>
