@@ -77,7 +77,6 @@
       top: 1%;
       font-size: 28px;
       cursor: pointer;
-
     }
     .disable {
       display: none;
@@ -89,53 +88,57 @@
     .multipleTransform.hand{
       border-radius: 0px 0px 12px 12px;
     }
-    .bar-item {
-      position: absolute;
-      left: 29%;
-      top: 10%;
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
-    }
     .bar-item-circle {
       height: 55px;
       width: 55px;
       border-radius: 50%;
       background: #45e622;
       background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
-
-      position: relative;
+      top: 10%;
+      left: 26%;
+      z-index: 1;
+      position: absolute;
+      animation-duration: 2s;
+      animation-timing-function: linear;
     }
     .bar-item-verticle{
-      margin-top: -20px;
-      position: relative;
+      left: 34%;
+      top: 61%;
+      position: absolute;
       z-index: 0;
-      transform: rotateX(70deg);
+      transform: rotateX(267deg);
     }
 
-    .ellipse {
-        width: 20px;
-        height: 20px; 
-        background: deepskyblue;
-        border-radius: 50px;
-        
+    .bar-item-verticle .ellipse {
+      width: 20px;
+      height: 20px; 
+      background: deepskyblue;
+      border-radius: 50px;
     }
 
-    .rectangle {
-        width: 20px;
-        height: 600px;
-        position: absolute;
-        opacity: 0.6;
-        background: deepskyblue;
-        top: 0;
-        left: 0; 
-        border-radius: 50px;
-        z-index: -1;
-        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+    .bar-item-verticle .rectangle {
+      width: 20px;
+      height: 4000px;
+      position: absolute;
+      opacity: 0.6;
+      background: deepskyblue;
+      top: 0;
+      left: 0; 
+      border-radius: 50px;
+      z-index: -1;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+      animation-duration: 2s;
+      animation-timing-function: ease-in;
+    }
+    .ballMoving {
+      animation-name: ballMoving;
+    }
+    .verticleMoving {
+      animation-name: verticleMoving;
     }
     .rotate {
       position: absolute;
-      left: 48%;
+      left: 45%;
       top: 63%;
       transform: rotate(90deg);
     }
@@ -148,7 +151,28 @@
 
     }
     .bar-item-connector .rectangle {
-      height: 333px;
+      height: 320px;
+      width: 20px;
+      position: absolute;
+      opacity: 0.6;
+      background: deepskyblue;
+      top: 0;
+      left: 0; 
+      border-radius: 50px;
+      z-index: -1;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+    }
+
+    @keyframes verticleMoving {
+      from { height: 4000px; }
+      70% { height: 2000px; }
+      to   { height: 4000px;}
+    }
+
+    @keyframes ballMoving {
+      from { top: 10% }
+      70% { top:33% }
+      to { top:10% }
     }
   </style>
 </head>
@@ -219,20 +243,18 @@
       </div>
     </div>
   </div>
-  <div class="col-12 row" >
+  <div class="col-12" style="margin: 0; display:flex;">
     <div class="card slot-machine">
       <h3 class="card-title"><i class="fa-solid fa-trophy"></i>  抽獎拉霸機!</h3>
       <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
       <canvas></canvas>
     </div>
     <div class="bar" onclick="play()">
-      <div class="bar-item">
+        <div class="bar-item-circle"></div>
         <div class="bar-item-verticle">
           <div class="ellipse"></div>
           <div class="rectangle"></div>
         </div>
-        <div class="bar-item-circle"></div>
-      </div>
       <div class="rotate">
         <div class="bar-item-connector">
           <div class="ellipse"></div>
@@ -268,7 +290,22 @@
   let checkbox = document.querySelector('.btn-check')
   let winnerNames = []
   let winnerForm = document.querySelector('.winnerForm')
+  let ball = document.querySelector('.bar-item-circle')
+  let handle = document.querySelector('.bar-item-verticle .rectangle')
+
+  ball.addEventListener('animationend',function() {
+    ball.classList.remove('ballMoving')
+  })
+  handle.addEventListener('animationend',function() {
+    handle.classList.remove('verticleMoving')
+  })
+  ball.classList.add('ballMoving')
+  handle.classList.add('verticleMoving')
+
   
+
+
+
   toastr.options = {
   "closeButton": true,
   "debug": false,
@@ -316,9 +353,9 @@
   
   canvas = document.querySelector('canvas');
   ctx = canvas.getContext('2d');
-  chars = chars+text
+  let mix = chars+text
   let winner = text.split('');
-  let words = chars.split('');
+  let words = mix.split('');
   let wordMap = [];
   let offset = [];
   let offsetV = [];
@@ -380,6 +417,7 @@
   
 
   function play() {
+    playAnimation()
     let drawlList = getDrawlList()
     let http = `https://www.random.org/integers/?num=1&min=0&max=${drawlList.length-1}&col=1&base=10&format=plain&rnd=new`
     if (winnerMode === 'edit') {
@@ -401,9 +439,9 @@
                 setWinnerList(drawlList[data])
               }, 6000);
             }
-            chars = chars+text
+            let mix = chars+text
             winner = text.split('');
-            words = chars.split('');
+            words = mix.split('');
             shuffle(words)
             wordMap = [];
             offset = [];
@@ -466,9 +504,9 @@
         ).catch(e => {
           toastr.error('請輸入抽獎名單或所有參與者皆已中獎')
           text = 'Na姊生日超級大快樂!!!'
-          chars = chars+text
+          let mix = chars+text
           winner = text.split('');
-          words = chars.split('');
+          words = mix.split('');
           shuffle(words)
           wordMap = [];
           offset = [];
@@ -529,6 +567,10 @@
         }
       )
     }
+  }
+  function playAnimation() {
+    ball.classList.add('ballMoving')
+    handle.classList.add('verticleMoving')
   }
 
   function winnerEdit() {
