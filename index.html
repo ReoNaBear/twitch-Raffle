@@ -798,18 +798,21 @@
     let excelInputArea = document.querySelector('.inputArea')
     let multipleTransform = document.querySelector('.multipleTransform')
     let excelData = excelInputArea.value
-    let seperate = excelData.trim().split(/\s+/)
-    let complicateData = seperate
-  
-    seperate.forEach((e,index) => {
-      if(e.split("")[0] == '('){
-        complicateData[index-1] = complicateData[index-1] + e
-        complicateData.splice(index,1)
-      }
-    });
-  
-    let finalData = makeDrawlList(complicateData,1)
-    multipleTransform.innerHTML = finalData
+    if(!!excelData.trim()) {
+      let seperate = excelData.trim().split(/\s+/)
+      let complicateData = seperate
+    
+      seperate.forEach((e,index) => {
+        if(e.split("")[0] == '('){
+          complicateData[index-1] = complicateData[index-1] + e
+          complicateData.splice(index,1)
+        }
+      });
+      let finalData = makeDrawlList(complicateData,1)
+      multipleTransform.innerHTML = finalData
+    } else {
+      multipleTransform.innerHTML = ''
+    }
   }
   
   
@@ -830,15 +833,17 @@
       if(nowMode === 'auto'){
         let data = ''
         let form = document.querySelector('.multipleTransform.auto')
-        let array = form.value.trim().split(/\s+/)
-        for (let i = 0; i < array.length; i+=2) {
-          if (!winnerList.includes(`${array[i]} ${array[i+1]}`)) {
-            data = data + `${array[i]} ${array[i+1]}\n`
-          } else {
-            console.log('noooooooo');
+        if (form.value) {
+          let array = form.value.trim().split(/\s+/)
+          for (let i = 0; i < array.length; i+=2) {
+            if (!winnerList.includes(`${array[i]} ${array[i+1]}`)) {
+              data = data + `${array[i]} ${array[i+1]}\n`
+            }
+          }
+          if (data !== '') {
+            form.innerHTML = data
           }
         }
-        form.innerHTML = data
       }
     }else {
       toastr.error('請先儲存中獎者名單')
