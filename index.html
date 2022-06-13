@@ -296,7 +296,7 @@
           ex:
           參加者A 2
           參加者B 5"></textarea>
-        <button type="button" onclick="outputDrawList()" class="btn multipleTransformBtn" >轉換</button>
+        <button type="button" onclick="outputDrawList()" class="btn multipleTransformBtn" >轉換名單</button>
       </div>
     </div>
     <div class="col-4">
@@ -348,9 +348,9 @@
             <button type="button" class="copy btn multipleTransformBtn" style="background-color: #D2BBF2; color: #000;" disabled>當前獎項已中獎數: <span class="draw-Amount">0</span></button>
           </div>
           <div class="col-6">
-            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-            <label class="btn filter-close" style="background-color: #D2BBF2; color: #000; width: 100%; border-radius: 0px;" for="btncheck1">自動過濾中獎者</label>
-            <label class="btn filter-open  disable" style="background-color: #AE8FD9; color: #000; border-radius: 0px;" for="btncheck1">正在自動過濾!</label>
+            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" checked>
+            <label class="btn filter-close disable" style="background-color: #D2BBF2; color: #000; width: 100%; border-radius: 0px;" for="btncheck1">點我自動過濾</label>
+            <label class="btn filter-open" style="background-color: #AE8FD9; color: #000; border-radius: 0px;" for="btncheck1">正在自動過濾!</label>
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -413,8 +413,8 @@
   let awardTitle = document.querySelector('.award-name')
   let nowDrawNumber = document.querySelector('.draw-Amount')
   let nowPlaying = false
-  let autoFilter = false
   let awardChange = false
+  let autoFilter = true
   let winnerList = []
   let winnerNames = []
   let nowAward = ''
