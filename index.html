@@ -27,46 +27,47 @@
     .title {
       width: 100%;
       text-align: center;
-      font-size: 35px;
-      margin: 20px 0;
-      border: 3px solid #8E6BBF;
+      font-size: calc(35vw/19.2);
+      margin: calc(20vw/19.2) 0;
+      border: calc(3vw/19.2) solid #8E6BBF;
       border-left: 0px;
       border-right: 0px;
       color: #8E6BBF;
     }
     .card {
-      border-radius: 12px;
-      margin: -10px 0 20px 0;
-      border: 2px solid #8E6BBF;
+      border-radius: calc(12vw/19.2);
+      margin: calc(-10vw/19.2) 0 calc(20vw/19.2) 0;
+      border: calc(2vw/19.2) solid #8E6BBF;
       background-color: #D2BBF2;
     }
     .card-title {
       text-align: center;
       background-color: #AE8FD9;
-      line-height: 50px;
-      font-size: 25px;
-      border-radius: 12px 12px 0px 0px;
+      line-height: calc(50vw/19.2);
+      font-size: calc(25vw/19.2);
+      border-radius: calc(12vw/19.2) calc(12vw/19.2) 0px 0px;
     }
     h5 {
       color: #000;
+      font-size: calc(15vw/19.2);
     }
     .col-4{
       width: 30%;
     }
     .col-ll {
-      margin-top: 20px;
+      margin-top: calc(20vw/19.2);
     }
     canvas{
       background: #ffffff;
-      height: 360px;
+      height: calc(360vw/19.2);
       width: 100%;
       left: 0;
       top: 0;
-      border-radius: 0px 0px 12px 12px;
+      border-radius: 0px 0px calc(12vw/19.2) calc(12vw/19.2);
 
     }
     .slot-machine{
-      margin-left: calc(10%/6);
+      margin-left: calc(10%/0.7/6);
       width: 85%;
       margin-bottom: 0;
     }
@@ -84,7 +85,7 @@
       position: absolute;
       right: 2%;
       top: 1%;
-      font-size: 28px;
+      font-size: calc(28vw/19.2);
       cursor: pointer;
     }
     .disable {
@@ -102,8 +103,8 @@
       width: 55px;
       border-radius: 50%;
       top: 10%;
-      left: 25%;
-      z-index: 1;
+      left: calc(32% - 17.5px);
+      z-index: 2;
       position: absolute;
       animation-duration: 2s;
       animation-timing-function: linear;
@@ -130,8 +131,8 @@
         left: 32%;
         top: 21%;
         position: absolute;
-        z-index: 0;
-        height: 205px;
+        z-index: 1;
+        height: calc(202vw/19.2);
     }
 
     .bar-item-verticle .ellipse {
@@ -139,7 +140,7 @@
       bottom: 0%;
       width: 20px;
       height: 20px; 
-      background: #333;
+      background: #3b1212;
       border-radius: 50px;
       transform: rotateX(256deg);
       animation-duration: 2s;
@@ -152,7 +153,7 @@
       background-color: #622;
       box-shadow: 14px 6px 10px #0009;
       width: 20px;
-      height: 195px;
+      height: calc(195vw/19.2);
       position: absolute;
       opacity: 0.9;
       top: 0;
@@ -190,6 +191,7 @@
       left: 0%;
       top: 69%;
       transform: rotate(270deg);
+      z-index: -2;
     }
     .bar-item-connector{
       position: absolute;
@@ -201,7 +203,7 @@
     }
     .bar-item-connector .rectangle {
       box-shadow:-6px 39px 10px #0009;
-      height: 310px;
+      height: calc(310vw/19.2);
       width: 20px;
       position: absolute;
       opacity: 0.9;
@@ -210,14 +212,12 @@
       left: 0; 
       border-radius: 50px;
       z-index: -1;
-      /* background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%); */
     }
     .bar-item-connector .rectangle::before {
       left: 43%;
       top: -4%;
       right: -9%;
       bottom: 25%;
-      /* border: 0.3em solid #444; */
       filter: blur(7px);
     }
 
@@ -225,21 +225,21 @@
       position: absolute;
       right: 2%;
       top: 2%;
-      line-height: 30px;
-      font-size: 17px;
+      line-height: calc(30vw/192);
+      font-size: calc(17vw/19.2);
     }
 
     @keyframes verticleMoving {
       from { 
-        height: 195px;
+        height: calc(195vw/19.2);
         top: 0%; 
       }
       70% { 
-        height: 100px;
+        height: calc(100vw/19.2);
         top: 50%; 
       }
       to { 
-        height: 195px;
+        height: calc(195vw/19.2);
         top: 0%; 
       }
     }
@@ -274,6 +274,8 @@
       color: white;
       width: 100%;
       text-align: center;
+      height: 100%;
+      font-size: calc(16vw/19.2);
     }
     input {
       border-radius: 5px;
@@ -287,7 +289,7 @@
 <body>
   
   <div class="title">阿熊的抽獎小網ʕ•ᴥ•ʔ</div>
-  <div class="row" style="justify-content: space-around; width: 100%;">
+  <div class="row" style="justify-content: space-around; width: 100%; margin: 0;">
     <div class="col-4">
       <div class="card">
         <h3 class="card-title"><i class="fa-solid fa-table"></i>  資料轉換區</h3>
@@ -322,7 +324,7 @@
         <div class="hand-icon" onclick="modeChange()">
           <i class="fa-regular fa-hand"></i>
         </div>
-        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  自動轉換的名單將不會一起被統計</h5>
+        <h5 style="text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  自動轉換的名單將不會一起被統計</h5>
         <textarea  class="multipleTransform hand" name="multipleTransform" id="multipleTransform" cols="30" rows="12" placeholder="格式為
           1 手打1號
           2 手打1號
@@ -334,7 +336,7 @@
     <div class="col-4">
       <div class="card">
         <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  中獎名單!</h3>
-        <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  右上角可進入編輯模式，請先儲存再抽獎</h5>
+        <h5 style="text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  右上角可進入編輯模式，請先儲存再抽獎</h5>
         <div class="edit-icon" onclick="winnerEdit()">
           <i class="fa-solid fa-pen-to-square"></i>
           <i class="fa-solid fa-check disable"></i>
@@ -368,7 +370,7 @@
     <div class="card slot-machine">
       <h3 class="card-title"><i class="fa-solid fa-trophy"></i>  抽獎拉霸機!</h3> 
       <div class="award-name">當前獎項: <input type="text"></div>
-      <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
+      <h5 style=" text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
       <canvas></canvas>
     </div>
     <div class="bar" onclick="play()">
