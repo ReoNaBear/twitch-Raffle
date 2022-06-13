@@ -19,28 +19,36 @@
   <title>熊熊的圖奇抽獎小網站</title>
   <style>
     body {
-      background-color: ivory;
+      background-color: #DED0F2;
       margin: 0;
       font-family: 'Noto Sans TC', sans-serif;
+      color: white;
     }
     .title {
+      width: 100%;
       text-align: center;
       font-size: 35px;
-      margin: 20px;
-      border: 3px solid antiquewhite;
+      margin: 20px 0;
+      border: 3px solid #8E6BBF;
+      border-left: 0px;
+      border-right: 0px;
+      color: #8E6BBF;
     }
     .card {
       border-radius: 12px;
       margin: -10px 0 20px 0;
-      border: 2px solid;
-      background-color: #eee;
+      border: 2px solid #8E6BBF;
+      background-color: #D2BBF2;
     }
     .card-title {
       text-align: center;
-      background-color: antiquewhite;
+      background-color: #AE8FD9;
       line-height: 50px;
       font-size: 25px;
       border-radius: 12px 12px 0px 0px;
+    }
+    h5 {
+      color: #000;
     }
     .col-4{
       width: 30%;
@@ -60,6 +68,7 @@
     .slot-machine{
       margin-left: calc(10%/6);
       width: 85%;
+      margin-bottom: 0;
     }
     .bar {
       width: 13%;
@@ -93,7 +102,7 @@
       width: 55px;
       border-radius: 50%;
       top: 10%;
-      left: 26%;
+      left: 25%;
       z-index: 1;
       position: absolute;
       animation-duration: 2s;
@@ -101,12 +110,12 @@
 
       display: inline-block;
       overflow: hidden;
-      box-shadow: 10px 10px 10px #0004;
-      background-color: #aaa;
+      box-shadow: 10px 10px 10px #0009;
+      background-color: #622;
     }
     .bar-item-circle::before {
       content: '';
-      background-color: #fff;
+      background-color: #A61;
       border-radius: 100%;
       position: absolute;
       left: -15%;
@@ -118,7 +127,7 @@
     }
     
     .bar-item-verticle {
-        left: 34%;
+        left: 32%;
         top: 21%;
         position: absolute;
         z-index: 0;
@@ -140,12 +149,12 @@
     .bar-item-verticle .rectangle {
       display: inline-block;
       overflow: hidden;
-      background-color: #aaa;
-      box-shadow: 14px 6px 10px #0004;
+      background-color: #622;
+      box-shadow: 14px 6px 10px #0009;
       width: 20px;
       height: 195px;
       position: absolute;
-      opacity: 0.6;
+      opacity: 0.9;
       top: 0;
       left: 0; 
       z-index: -1;
@@ -154,14 +163,14 @@
     }
     .rectangle::before {
       content: '';
-      background-color: #fff;
+      background-color: #A61;
       border-radius: 100%;
       position: absolute;
-      left: -15%;
-      top: -15%;
-      right: 5%;
+      left: -46%;
+      top: -10%;
+      right: 34%;
       bottom: 5%;
-      border: 0.3em solid #444;
+      border: 0.3em solid #0002;
       filter: blur(7px);
     }
     .ballMoving {
@@ -178,9 +187,9 @@
     }
     .rotate {
       position: absolute;
-      left: 44%;
-      top: 63%;
-      transform: rotate(90deg);
+      left: 0%;
+      top: 69%;
+      transform: rotate(270deg);
     }
     .bar-item-connector{
       position: absolute;
@@ -191,25 +200,33 @@
 
     }
     .bar-item-connector .rectangle {
-      box-shadow: 10px -30px 10px #0004;
+      box-shadow:-6px 39px 10px #0009;
       height: 310px;
       width: 20px;
       position: absolute;
-      opacity: 0.6;
-      background: #333;
+      opacity: 0.9;
+      background: #622;
       top: 0;
       left: 0; 
       border-radius: 50px;
       z-index: -1;
-      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+      /* background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%); */
     }
     .bar-item-connector .rectangle::before {
-      left: 0%;
-      top: -10%;
-      right: 12%;
-      bottom: 11%;
-      border: 0.3em solid #444;
+      left: 43%;
+      top: -4%;
+      right: -9%;
+      bottom: 25%;
+      /* border: 0.3em solid #444; */
       filter: blur(7px);
+    }
+
+    .award-name {
+      position: absolute;
+      right: 2%;
+      top: 2%;
+      line-height: 30px;
+      font-size: 17px;
     }
 
     @keyframes verticleMoving {
@@ -247,11 +264,29 @@
         bottom: 0%; 
       }
     }
+    input,
+    textarea,
+    canvas {
+      background-color: #EDE9F2;
+    }
+    .btn {
+      background-color: #8E6BBF;
+      color: white;
+      width: 100%;
+      text-align: center;
+    }
+    input {
+      border-radius: 5px;
+      border: 0px;
+    }
+    .winnerNamesForm {
+      border-radius: 20px;
+    }
   </style>
 </head>
 <body>
   
-  <div class="title">阿熊的抽獎小網</div>
+  <div class="title">阿熊的抽獎小網ʕ•ᴥ•ʔ</div>
   <div class="row" style="justify-content: space-around; width: 100%;">
     <div class="col-4">
       <div class="card">
@@ -261,7 +296,7 @@
           ex:
           參加者A 2
           參加者B 5"></textarea>
-        <button type="button" onclick="outputDrawlList()" class="btn btn-outline-info multipleTransformBtn" >轉換</button>
+        <button type="button" onclick="outputDrawList()" class="btn multipleTransformBtn" >轉換</button>
       </div>
     </div>
     <div class="col-4">
@@ -280,7 +315,7 @@
           3 參加者B
           4 參加者B
           5 參加者B"></textarea>
-        <button type="button" class="copy btn btn-outline-info multipleTransformBtn" onclick="copy('participant')">複製名單</button>
+        <button type="button" class="copy btn multipleTransformBtn" onclick="copy('participant')">複製名單</button>
       </div>
       <div class="card hand-input disable">
         <h3 class="card-title"><i class="fa-solid fa-list-ol"></i>  待抽獎名單!(手動模式)</h3>
@@ -304,21 +339,35 @@
           <i class="fa-solid fa-pen-to-square"></i>
           <i class="fa-solid fa-check disable"></i>
         </div>
-        <textarea readonly class="winnerForm" name="winnerForm" id="winnerForm" cols="30" rows="10"></textarea>
-        <textarea  class="winnerFormEdit disable" name="winnerForm" id="winnerForm" cols="30" rows="10"></textarea>
+        <textarea readonly class="winnerForm" name="winnerForm" id="winnerForm" cols="30" rows="8"></textarea>
+        <textarea  class="winnerFormEdit disable" name="winnerForm" id="winnerForm" cols="30" rows="8"></textarea>
+        <textarea  class="winnerNamesForm" name="winnerForm" id="winnerForm" cols="10" rows="2" style="position: absolute;
+        z-index: -99;" ></textarea>
         <div class="btn-group" role="group" aria-label="Basic outlined example">
-          <button type="button" class="copy btn btn-outline-info multipleTransformBtn deleteBtn" onclick="deleteWinnerInList()">將中獎者從抽獎名單刪除</button>
-          <button type="button" class="copy btn btn-outline-info multipleTransformBtn" onclick="copy('winner')">複製中獎者名單</button>
-          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck1">自動過濾中獎者(名字相同)</label>
-          <label class="btn btn-outline-primary disable" for="btncheck1">正在自動過濾<br/>(再點擊即可取消)</label>
+          <div class="col-6">
+            <button type="button" class="copy btn multipleTransformBtn" style="background-color: #D2BBF2; color: #000;" disabled>當前獎項已中獎數: <span class="draw-Amount">0</span></button>
+          </div>
+          <div class="col-6">
+            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+            <label class="btn filter-close" style="background-color: #D2BBF2; color: #000; width: 100%; border-radius: 0px;" for="btncheck1">自動過濾中獎者</label>
+            <label class="btn filter-open  disable" style="background-color: #AE8FD9; color: #000; border-radius: 0px;" for="btncheck1">正在自動過濾!</label>
+          </div>
+        </div>
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+          <div class="col-6">
+            <button type="button" class="copy btn multipleTransformBtn deleteBtn" style="border-radius: 0px 0px 0px 12px" onclick="deleteWinnerInList()">將中獎者從抽獎名單刪除</button>
+          </div>
+          <div class="col-6">
+            <button type="button" class="copy btn multipleTransformBtn" style="border-radius: 0px 0px 12px 0px;" onclick="copy('winner')">複製中獎者名單(除去號碼)</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-12" style="margin: 0; display:flex;">
     <div class="card slot-machine">
-      <h3 class="card-title"><i class="fa-solid fa-trophy"></i>  抽獎拉霸機!</h3>
+      <h3 class="card-title"><i class="fa-solid fa-trophy"></i>  抽獎拉霸機!</h3> 
+      <div class="award-name">當前獎項: <input type="text"></div>
       <h5 style="font-size:15px; text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示:  點擊右方把手即可開始抽獎</h5>
       <canvas></canvas>
     </div>
@@ -342,18 +391,11 @@
   
 
 </body>
-<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-<script>
-  var swiper = new Swiper(".mySwiper", {
-    watchSlidesProgress: true,
-    slidesPerView: 2,
-  });
-</script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 <script>
   let nowMode = 'auto'
   let winnerMode = 'read'
@@ -361,19 +403,41 @@
   let checkIcon = document.querySelector('.fa-check')
   let winnerFormEdit = document.querySelector('.winnerFormEdit')
   let checkbox = document.querySelector('.btn-check')
-  let winnerNames = []
-  let winnerList = []
   let winnerForm = document.querySelector('.winnerForm')
+  let winnerNamesForm = document.querySelector('.winnerNamesForm')
   let ball = document.querySelector('.bar-item-circle')
   let handle = document.querySelector('.bar-item-verticle .rectangle')
   let verticle = document.querySelector('.bar-item-verticle .ellipse')
+  let filterClose = document.querySelector('.filter-close')
+  let filterOpen = document.querySelector('.filter-open')
+  let awardTitle = document.querySelector('.award-name')
+  let nowDrawNumber = document.querySelector('.draw-Amount')
   let nowPlaying = false
+  let autoFilter = false
+  let awardChange = false
+  let winnerList = []
+  let winnerNames = []
+  let nowAward = ''
+  let newAward = ''
+  let drawAmount = 0
 
+
+  //如果獎項名稱有更動
+  awardTitle.addEventListener('change',function() {
+    awardChange = true
+    newAward = awardTitle.querySelector('input').value
+    if (nowAward === newAward) {
+      awardChange = false
+      newAward = ''
+    }
+  })
+
+  //拉霸動畫控制
   ball.addEventListener('animationend',function() {
     ball.classList.remove('ballMoving')
     setTimeout(() => {
       nowPlaying = false
-    }, 2000);
+    }, 3000);
   })
   handle.addEventListener('animationend',function() {
     handle.classList.remove('verticleMoving')
@@ -385,46 +449,41 @@
   handle.classList.add('verticleMoving')
   verticle.classList.add('verticleBottomMoving')
 
-
-  
-
-
-
+  //上方提示設定
   toastr.options = {
-  "closeButton": true,
-  "debug": false,
-  "newestOnTop": true,
-  "progressBar": true,
-  "positionClass": "toast-top-center",
-  "preventDuplicates": true,
-  "onclick": null,
-  "showDuration": "200",
-  "hideDuration": "500",
-  "timeOut": "3000",
-  "extendedTimeOut": "1000",
-  "showEasing": "linear",
-  "hideEasing": "linear",
-  "showMethod": "fadeIn",
-  "hideMethod": "fadeOut"
-}
-  let autoFilter = false
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-center",
+    "preventDuplicates": true,
+    "onclick": null,
+    "showDuration": "200",
+    "hideDuration": "500",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+    "showEasing": "linear",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+
+  //過濾功能開關
   checkbox.addEventListener('change',function() {
+    filterOpen.classList.remove('disable')
+    filterClose.classList.remove('disable')
     if (checkbox.checked) {
       autoFilter = true
       toastr.success('自動過濾已中獎者')
+      filterClose.classList.add('disable')
     } else {
       autoFilter = false
       toastr.success('停止自動過濾')
+      filterOpen.classList.add('disable')
     }
   })
 
-
-  // winnerForm.addEventListener('change', function() {
-  //   winnerList = winnerForm.value.trim().split(/\s+/)
-  // })
-  
-  
-  
+  // 初始抽獎動畫
   let text = '歡迎使用拉霸機!!!';  // The message displayed
   let chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890() ';  // All possible Charactrers
   let scale = 40;  // Font size and overall scale
@@ -433,80 +492,19 @@
   let firstLetter = 250;  // Number of frames untill the first letter stopps (60 frames per second)
   let delay = 30;  // Number of frames between letters stopping
 
-
-  
   canvas = document.querySelector('canvas');
   ctx = canvas.getContext('2d');
-  let mix = chars+text
-  let winner = text.split('');
-  let words = mix.split('');
-  let wordMap = [];
-  let offset = [];
-  let offsetV = [];
-  
-  shuffle(words)
-  
-  for(let i=0;i < words.length; i++){
-    if (!wordMap[words[i]]) {
-      wordMap[words[i]] = i;
-    }
-  }
-  
-  for(let i=0; i < winner.length; i++){
-    let f = firstLetter + delay * i;
-    offsetV[i] = endSpeed+breaks*f;
-    offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
-  }
-  
-  (onresize = function(){
-    canvas.width = canvas.clientWidth-10;
-    canvas.height = canvas.clientHeight-10;
-  })();
-  
-  requestAnimationFrame(loop = function(){
-    ctx.setTransform(1,0,0,1,0,0);
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = '#622';
-    ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
-    for(var i=0;i<text.length;i++){
-      ctx.fillStyle = '#ccc';
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = 'center';
-      ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
-      var o = offset[i];
-      while(o<0)o++;
-      o %= 1;
-      var h = Math.ceil(canvas.height/2/scale)
-      for(var j=-h;j<h;j++){
-        var c = wordMap[text[i]]+j-Math.floor(offset[i]);
-        while(c<0)c+=words.length;
-        c %= words.length;
-        var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
-        ctx.globalAlpha = s
-        ctx.font = scale*s + 'px Helvetica'
-        ctx.fillText(words[c],scale*i,(j+o+0.1)*scale);
-      }
-      offset[i] += offsetV[i];
-      offsetV[i] -= breaks;
-      if(offsetV[i]<endSpeed){
-        offset[i] = 0;
-        offsetV[i] = 0;
-      }
-    }
-    requestAnimationFrame(loop);
-  });
+  drawAnimationDetail(text)
 
-  
-
+  // 抽獎動畫
   function play() {
     if (nowPlaying) {
       return
     } else {
       nowPlaying = true
       playAnimation()
-      let drawlList = getDrawlList()
-      let http = `https://www.random.org/integers/?num=1&min=1&max=${drawlList.length}&col=1&base=10&format=plain&rnd=new`
+      let drawList = getDrawList()
+      let http = `https://www.random.org/integers/?num=1&min=1&max=${drawList.length}&col=1&base=10&format=plain&rnd=new`
       if (winnerMode === 'edit') {
         toastr.error('請先儲存中獎者名單')
         return
@@ -521,150 +519,249 @@
                 text = 'Na姊生日超級大快樂!!!'
               }
               else{
-                text = drawlList[data-1]
-                setWinnerList(drawlList[data-1])
+                text = drawList[data-1]
+                setWinnerList(drawList[data-1])
               }
-              let mix = chars+text
-              winner = text.split('');
-              words = mix.split('');
-              shuffle(words)
-              wordMap = [];
-              offset = [];
-              offsetV = [];
-              
-              for(let i=0;i < words.length; i++){
-                if (!wordMap[words[i]]) {
-                  wordMap[words[i]] = i;
-                }
-              }
-              
-              for(let i=0; i < winner.length; i++){
-                let f = firstLetter + delay * i;
-                offsetV[i] = endSpeed+breaks*f;
-                offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
-              }
-          
-              (onresize = function(){
-                canvas.width = canvas.clientWidth-10;
-                canvas.height = canvas.clientHeight-10;
-              })();
-              
-              requestAnimationFrame(loop = function(){
-                ctx.setTransform(1,0,0,1,0,0);
-                ctx.clearRect(0,0,canvas.width,(canvas.height+100));
-                ctx.globalAlpha = 1;
-                ctx.fillStyle = '#622';
-                ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
-                for(var i=0;i<text.length;i++){
-                  ctx.fillStyle = '#ccc';
-                  ctx.textBaseline = 'middle';
-                  ctx.textAlign = 'center';
-                  ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
-                  var o = offset[i];
-                  while(o<0)o++;
-                  o %= 1;
-                  var h = Math.ceil(canvas.height/2/scale)
-                  for(var j=-h;j<h;j++){
-                    var c = wordMap[text[i]]+j-Math.floor(offset[i]);
-                    while(c<0)c+=words.length;
-                    c %= words.length;
-                    var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
-                    ctx.globalAlpha = s
-                    ctx.font = scale*s + 'px Helvetica'
-                    ctx.fillText(words[c],scale*i,(j+o+0.05)*scale);
-                  }
-                  offset[i] += offsetV[i];
-                  offsetV[i] -= breaks;
-                  if(offsetV[i]<endSpeed){
-                    offset[i] = 0;
-                    offsetV[i] = 0;
-                  }
-                }
-                
-                requestAnimationFrame(loop);
-              }
-              );
-    
+              drawAnimationDetail(text)
             }
           ).catch(e => {
-            if (drawlList.length === 1 && !!drawlList[0]) {
-            text = drawlList[0]
-            setWinnerList(drawlList[0])
+            if (drawList.length === 1 && !!drawList[0]) {
+            text = drawList[0]
+            setWinnerList(drawList[0])
             } else {
               toastr.error('請輸入抽獎名單或所有參與者皆已中獎')
               text = 'Na姊生日超級大快樂!!!'
             }
-            let mix = chars+text
-            winner = text.split('');
-            words = mix.split('');
-            shuffle(words)
-            wordMap = [];
-            offset = [];
-            offsetV = [];
-            
-            for(let i=0;i < words.length; i++){
-              if (!wordMap[words[i]]) {
-                wordMap[words[i]] = i;
-              }
-            }
-          
-            for(let i=0; i < winner.length; i++){
-              let f = firstLetter + delay * i;
-              offsetV[i] = endSpeed+breaks*f;
-              offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
-            }
-              
-            (onresize = function(){
-              canvas.width = canvas.clientWidth-10;
-              canvas.height = canvas.clientHeight-10;
-            })();
-          
-            requestAnimationFrame(loop = function(){
-              ctx.setTransform(1,0,0,1,0,0);
-              ctx.clearRect(0,0,canvas.width,(canvas.height+100));
-              ctx.globalAlpha = 1;
-              ctx.fillStyle = '#622';
-              ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
-              for(var i=0;i<text.length;i++){
-                ctx.fillStyle = '#ccc';
-                ctx.textBaseline = 'middle';
-                ctx.textAlign = 'center';
-                ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
-                var o = offset[i];
-                while(o<0)o++;
-                o %= 1;
-                var h = Math.ceil(canvas.height/2/scale)
-                for(var j=-h;j<h;j++){
-                  var c = wordMap[text[i]]+j-Math.floor(offset[i]);
-                  while(c<0)c+=words.length;
-                  c %= words.length;
-                  var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
-                  ctx.globalAlpha = s
-                  ctx.font = scale*s + 'px Helvetica'
-                  ctx.fillText(words[c],scale*i,(j+o+0.05)*scale);
-                }
-                offset[i] += offsetV[i];
-                offsetV[i] -= breaks;
-                if(offsetV[i]<endSpeed){
-                  offset[i] = 0;
-                  offsetV[i] = 0;
-                }
-              }
-                
-              requestAnimationFrame(loop);
-              }
-            );
+            drawAnimationDetail(text)
           }
         )
       }
     }
   }
+
+  function drawAnimationDetail(text) {
+    let mix = chars+text
+    winner = text.split('');
+    words = mix.split('');
+    shuffle(words)
+    wordMap = [];
+    offset = [];
+    offsetV = [];
+    
+    for(let i=0;i < words.length; i++){
+      if (!wordMap[words[i]]) {
+        wordMap[words[i]] = i;
+      }
+    }
+  
+    for(let i=0; i < winner.length; i++){
+      let f = firstLetter + delay * i;
+      offsetV[i] = endSpeed+breaks*f;
+      offset[i] = -(1+f)*(breaks*f+2*endSpeed)/2;
+    }
+      
+    (onresize = function(){
+      canvas.width = canvas.clientWidth-10;
+      canvas.height = canvas.clientHeight-10;
+    })();
+  
+    requestAnimationFrame(loop = function(){
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.clearRect(0,0,canvas.width,(canvas.height+100));
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#622';
+      ctx.fillRect(0,(canvas.height-scale)/2,canvas.width,scale);
+      for(var i=0;i<text.length;i++){
+        ctx.fillStyle = '#ccc';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.setTransform(1,0,0,1,Math.floor((canvas.width-scale*(text.length-1))/2),Math.floor(canvas.height/2));
+        var o = offset[i];
+        while(o<0)o++;
+        o %= 1;
+        var h = Math.ceil(canvas.height/2/scale)
+        for(var j=-h;j<h;j++){
+          var c = wordMap[text[i]]+j-Math.floor(offset[i]);
+          while(c<0)c+=words.length;
+          c %= words.length;
+          var s = 1-Math.abs(j+o)/(canvas.height/2/scale+1)
+          ctx.globalAlpha = s
+          ctx.font = scale*s + 'px Helvetica'
+          ctx.fillText(words[c],scale*i,(j+o+0.05)*scale);
+        }
+        offset[i] += offsetV[i];
+        offsetV[i] -= breaks;
+        if(offsetV[i]<endSpeed){
+          offset[i] = 0;
+          offsetV[i] = 0;
+        }
+      }
+        
+      requestAnimationFrame(loop);
+    });
+    
+  }
+
+  //執行拉桿動畫
   function playAnimation() {
     ball.classList.add('ballMoving')
     handle.classList.add('verticleMoving')
     verticle.classList.add('verticleBottomMoving')
   }
 
+  // Fisher-Yates Shuffle
+  function shuffle(list) {
+    for (let i = list.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+  }
+
+
+  function modeChange() {
+    let auto = document.querySelector('.auto-input')
+    let hand = document.querySelector('.hand-input')
+    let deleteBtn = document.querySelector('.deleteBtn')
+    auto.classList.remove('disable')
+    hand.classList.remove('disable')
+    deleteBtn.classList.remove('disable')
+    if( nowMode === 'auto')
+    {
+      auto.classList.add('disable')
+      deleteBtn.classList.add('disable')
+      nowMode = 'hand'
+      toastr.info('進入手動輸入模式')
+    } else {
+      hand.classList.add('disable')
+      nowMode = 'auto'
+      toastr.info('進入自動轉換模式')
+    }
+  }
+  function getDrawList() {
+    let newList = []
+    if(nowMode === 'hand'){
+      let hand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
+      newList = makeDrawList(hand, 2)
+    } else {
+      let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
+      newList = makeDrawList(auto, 2)
+    }
+    shuffle(newList)
+    shuffle(newList)
+
+    return newList
+  }
+
+  //製作抽獎的名單
+  function makeDrawList(array,index) {
+    let finalData = ''
+    let drawList = []
+    let thisAwardWinners = []
+    if (!awardChange) {
+      for (let i = winnerNames.length - 1; i > winnerNames.length - 1 - drawAmount; i--) {
+        thisAwardWinners.push(winnerNames[i])
+      }
+    }
+    if (array[0] !== '') {
+      if(index === 1){
+        for (let i = 0; i < array.length; i+=2) {
+          for (let j = 1; j <= array[i+1]; j++) {
+            finalData = finalData + `${j} ${array[i]}\n`
+          }
+        }
+        return finalData
+      } else{
+        for (let i = 0; i < array.length; i+=2) {
+          if (!autoFilter || !thisAwardWinners.includes(array[i+1])) {
+            drawList.push(`${array[i]} ${array[i+1]}`)
+          }
+        }
+        return drawList
+      }
+    } else {  
+      return 0
+    }
+  }
+
+  //抽獎者名單轉換
+  function outputDrawList() {
+    let excelInputArea = document.querySelector('.inputArea')
+    let multipleTransform = document.querySelector('.multipleTransform')
+    let excelData = excelInputArea.value
+    if(!!excelData.trim()) {
+      let seperate = excelData.trim().split(/\s+/)
+      let complicateData = seperate
+    
+      seperate.forEach((e,index) => {
+        if(e.split("")[0] == '('){
+          complicateData[index-1] = complicateData[index-1] + e
+          complicateData.splice(index,1)
+        }
+      });
+      let finalData = makeDrawList(complicateData,1)
+      multipleTransform.innerHTML = finalData
+    } else {
+      multipleTransform.innerHTML = ''
+    }
+  }
+  
+  
+  function copy(e) {
+    if (winnerMode === 'read') {
+      if(e === 'participant'){
+        document.querySelector('.multipleTransform.auto').select()
+        document.execCommand('Copy')
+        toastr.success('成功複製抽獎者名單')
+      }else if (e === 'winner') {
+        document.querySelector('.winnerNamesForm').select()
+        document.execCommand('Copy')
+        toastr.success('成功複製中獎者名單')
+      }
+    } else {
+      toastr.error('請先儲存中獎者名單')
+    }
+  }
+
+  //將新的中獎者加入名單
+  function setWinnerList(winner) {
+    if (awardChange) {
+      winnerList.push(`=====${newAward}=====`)
+      winnerNames.push(`=====${newAward}=====`)
+      nowAward = newAward
+      awardChange = false
+      newAward = ''
+      drawAmount = 0
+      nowDrawNumber.innerText = drawAmount
+
+    }
+    drawAmount += 1
+    nowDrawNumber.innerText = drawAmount
+    winnerList.push(winner)
+    winnerNames.push(winner.trim().split(/\s+/)[1])
+
+    setTimeout(() => {
+      renewWinnerForm()
+    }, 4500);
+  }
+
+  //重新整理得獎者名單
+  function renewWinnerForm() {
+    let winnerHtml = ''
+    let winnerNamesHtml = ''
+    for (let i = 0; i < winnerList.length; i ++) {
+      winnerHtml = winnerHtml + `${winnerList[i]}\n`
+    }
+    console.log(winnerNames);
+    for (let i = 0; i < winnerNames.length; i ++) {
+      winnerNamesHtml = winnerNamesHtml + `${winnerNames[i]}\n`
+    }
+    winnerForm.innerHTML = winnerHtml
+    winnerFormEdit.value = winnerForm.value
+    winnerNamesForm.innerHTML = winnerNamesHtml
+  }
+
+
+  //中獎名單模式切換
   function winnerEdit() {
     editIcon.classList.remove('disable')
     checkIcon.classList.remove('disable')
@@ -686,24 +783,7 @@
     }
   }
 
-  function setWinnerList(winner) {
-    if (winner) {
-      winnerList.push(winner)
-    }
-    winnerNames.push(winner.trim().split(/\s+/)[1])
-    setTimeout(() => {
-      renewWinnerForm()
-    }, 5000);
-  }
-
-  function renewWinnerForm() {
-    let winnerHtml = ''
-    for (let i = 0; i < winnerList.length; i ++) {
-      winnerHtml = winnerHtml + `${winnerList[i]}\n`
-    }
-    winnerForm.innerHTML = winnerHtml
-    winnerFormEdit.value = winnerForm.value
-  }
+  //儲存中獎名單
   function saveWinnerList() {
     if (!!winnerFormEdit.value) {
       let sperate = winnerFormEdit.value.trim().split(/\s+/)
@@ -711,25 +791,34 @@
       let numberPosition = true
       winnerNames = []
       for (let i = 0; i < sperate.length; i++) {
-        if (numberPosition && ( i === 0 || i%2 === 0 )) {
-          if (!isNaN(Number(sperate[i]))) {
-            newWinnerList.push(`${sperate[i]} ${sperate[i+1]}`)
-            winnerNames.push(sperate[i+1])
-          } else {
-            newWinnerList.push(`0 ${sperate[i]}`)
-            winnerNames.push(sperate[i])
-            numberPosition = !numberPosition
+        if (!sperate[i].includes('=====')) {
+          console.log('無的');
+        
+          if (numberPosition && ( i === 0 || i%2 === 0 )) {
+            if (!isNaN(Number(sperate[i]))) {
+              newWinnerList.push(`${sperate[i]} ${sperate[i+1]}`)
+              winnerNames.push(sperate[i+1])
+            } else {
+              newWinnerList.push(`0 ${sperate[i]}`)
+              winnerNames.push(sperate[i])
+              numberPosition = !numberPosition
+            }
           }
-        }
-        if (!numberPosition && ( i === 1 || i%2 === 1 )) {
-          if (!isNaN(Number(sperate[i]))) {
-            newWinnerList.push(`${sperate[i]} ${sperate[i+1]}`)
-            winnerNames.push(sperate[i+1])
-          } else {
-            newWinnerList.push(`0 ${sperate[i]}`)
-            winnerNames.push(sperate[i])
-            numberPosition = !numberPosition
+          if (!numberPosition && ( i === 1 || i%2 === 1 )) {
+            if (!isNaN(Number(sperate[i]))) {
+              newWinnerList.push(`${sperate[i]} ${sperate[i+1]}`)
+              winnerNames.push(sperate[i+1])
+            } else {
+              newWinnerList.push(`0 ${sperate[i]}`)
+              winnerNames.push(sperate[i])
+              numberPosition = !numberPosition
+            }
           }
+        } else {
+          numberPosition = ! numberPosition
+          console.log('有的');
+          newWinnerList.push(sperate[i])
+          winnerNames.push(sperate[i])
         }
       }
       winnerList = newWinnerList
@@ -740,94 +829,7 @@
     renewWinnerForm()
   }
 
-  function modeChange() {
-    let auto = document.querySelector('.auto-input')
-    let hand = document.querySelector('.hand-input')
-    let deleteBtn = document.querySelector('.deleteBtn')
-    auto.classList.remove('disable')
-    hand.classList.remove('disable')
-    deleteBtn.classList.remove('disable')
-    if( nowMode === 'auto')
-    {
-      auto.classList.add('disable')
-      deleteBtn.classList.add('disable')
-      nowMode = 'hand'
-      toastr.info('進入手動輸入模式')
-    } else {
-      hand.classList.add('disable')
-      nowMode = 'auto'
-      toastr.info('進入自動轉換模式')
-    }
-  }
-  function getDrawlList() {
-    let newList = []
-    if(nowMode === 'hand'){
-      let hand = document.querySelector('.multipleTransform.hand').value.trim().split(/\s+/)
-      newList = makeDrawlList(hand, 2)
-    } else {
-      let auto = document.querySelector('.multipleTransform.auto').value.trim().split(/\s+/)
-      newList = makeDrawlList(auto, 2)
-    }
-    shuffle(newList)
-    return newList
-  }
-  function makeDrawlList(array,index) {
-      let finalData = ''
-      let drawlList = []
-      if (array[0] !== '') {
-        if(index === 1){
-          for (let i = 0; i < array.length; i+=2) {
-            for (let j = 1; j <= array[i+1]; j++) {
-              finalData = finalData + `${j} ${array[i]}\n`
-            }
-          }
-          return finalData
-        } else{
-          for (let i = 0; i < array.length; i+=2) {
-            if (!autoFilter || !winnerNames.includes(array[i+1])) {
-              drawlList.push(`${array[i]} ${array[i+1]}`)
-            }
-          }
-          return drawlList
-        }
-      } else {
-        return 0
-      }
-    }
-  function outputDrawlList() {
-    let excelInputArea = document.querySelector('.inputArea')
-    let multipleTransform = document.querySelector('.multipleTransform')
-    let excelData = excelInputArea.value
-    if(!!excelData.trim()) {
-      let seperate = excelData.trim().split(/\s+/)
-      let complicateData = seperate
-    
-      seperate.forEach((e,index) => {
-        if(e.split("")[0] == '('){
-          complicateData[index-1] = complicateData[index-1] + e
-          complicateData.splice(index,1)
-        }
-      });
-      let finalData = makeDrawlList(complicateData,1)
-      multipleTransform.innerHTML = finalData
-    } else {
-      multipleTransform.innerHTML = ''
-    }
-  }
-  
-  
-  function copy(e) {
-    if(e === 'participant'){
-      document.querySelector('.multipleTransform').select()
-      document.execCommand('Copy')
-      toastr.success('成功複製抽獎者名單')
-    }else if (e === 'winner') {
-      document.querySelector('.winnerForm').select()
-      document.execCommand('Copy')
-      toastr.success('成功複製中獎者名單')
-    }
-  }
-
+  //刪除中獎的那些資料
   function deleteWinnerInList() {
     if(winnerMode === 'read'){
       if(nowMode === 'auto'){
@@ -850,13 +852,7 @@
     }
   }
   
-  // Fisher-Yates Shuffle
-  function shuffle(list) {
-    for (let i = list.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      [list[i], list[j]] = [list[j], list[i]];
-    }
-  }
+  
           
           
 </script>
