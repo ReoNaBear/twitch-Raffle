@@ -732,7 +732,6 @@
       newAward = ''
       drawAmount = 0
       nowDrawNumber.innerText = drawAmount
-
     }
     drawAmount += 1
     nowDrawNumber.innerText = drawAmount
@@ -751,7 +750,6 @@
     for (let i = 0; i < winnerList.length; i ++) {
       winnerHtml = winnerHtml + `${winnerList[i]}\n`
     }
-    console.log(winnerNames);
     for (let i = 0; i < winnerNames.length; i ++) {
       winnerNamesHtml = winnerNamesHtml + `${winnerNames[i]}\n`
     }
@@ -791,9 +789,7 @@
       let numberPosition = true
       winnerNames = []
       for (let i = 0; i < sperate.length; i++) {
-        if (!sperate[i].includes('=====')) {
-          console.log('無的');
-        
+        if (!sperate[i].includes('=====')) {   
           if (numberPosition && ( i === 0 || i%2 === 0 )) {
             if (!isNaN(Number(sperate[i]))) {
               newWinnerList.push(`${sperate[i]} ${sperate[i+1]}`)
@@ -816,15 +812,14 @@
           }
         } else {
           numberPosition = ! numberPosition
-          console.log('有的');
           newWinnerList.push(sperate[i])
           winnerNames.push(sperate[i])
         }
       }
       winnerList = newWinnerList
     } else {
-      winnerList = []
-      winnerNames = []
+      winnerList = [`=====${nowAward}=====`]
+      winnerNames = [`=====${nowAward}=====`]
     }
     renewWinnerForm()
   }
