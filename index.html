@@ -518,7 +518,7 @@
             .then(data => {
               if(!data){
                 toastr.error('請先輸入抽獎者名單')
-                text = 'Na姊生日超級大快樂!!!'
+                text = 'Na姊發發集氣大成功!!!'
               }
               else{
                 text = drawList[data-1]
@@ -532,7 +532,7 @@
             setWinnerList(drawList[0])
             } else {
               toastr.error('請輸入抽獎名單或所有參與者皆已中獎')
-              text = 'Na姊生日超級大快樂!!!'
+              text = 'Na姊發發集氣大成功!!!'
             }
             drawAnimationDetail(text)
           }
@@ -658,12 +658,12 @@
   function makeDrawList(array,index) {
     let finalData = ''
     let drawList = []
-    let thisAwardWinners = []
-    if (!awardChange) {
-      for (let i = winnerNames.length - 1; i > winnerNames.length - 1 - drawAmount; i--) {
-        thisAwardWinners.push(winnerNames[i])
-      }
-    }
+    // let thisAwardWinners = []
+    // if (!awardChange) {
+    //   for (let i = winnerNames.length - 1; i > winnerNames.length - 1 - drawAmount; i--) {
+    //     thisAwardWinners.push(winnerNames[i])
+    //   }
+    // }
     if (array[0] !== '') {
       if(index === 1){
         for (let i = 0; i < array.length; i+=2) {
@@ -674,7 +674,7 @@
         return finalData
       } else{
         for (let i = 0; i < array.length; i+=2) {
-          if (!autoFilter || !thisAwardWinners.includes(array[i+1])) {
+          if (!autoFilter || !winnerNames.includes(array[i+1])) {
             drawList.push(`${array[i]} ${array[i+1]}`)
           }
         }
