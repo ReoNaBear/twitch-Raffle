@@ -437,9 +437,6 @@
   //拉霸動畫控制
   ball.addEventListener('animationend',function() {
     ball.classList.remove('ballMoving')
-    setTimeout(() => {
-      nowPlaying = false
-    }, 3000);
   })
   handle.addEventListener('animationend',function() {
     handle.classList.remove('verticleMoving')
@@ -500,6 +497,7 @@
 
   // 抽獎動畫
   function play() {
+    outputDrawList()
     if (nowPlaying) {
       return
     } else {
@@ -667,8 +665,13 @@
     if (array[0] !== '') {
       if(index === 1){
         for (let i = 0; i < array.length; i+=2) {
-          for (let j = 1; j <= array[i+1]; j++) {
-            finalData = finalData + `${j} ${array[i]}\n`
+          if(isNaN(Number(array[i]))){
+            finalData = finalData + `1 ${array[i]}\n`
+            i = i -1
+          } else {
+            for (let j = 1; j <= array[i+1]; j++) {
+              finalData = finalData + `${j} ${array[i]}\n`
+            }
           }
         }
         return finalData
@@ -758,6 +761,7 @@
     winnerForm.innerHTML = winnerHtml
     winnerFormEdit.value = winnerForm.value
     winnerNamesForm.innerHTML = winnerNamesHtml
+    nowPlaying = false
   }
 
 
