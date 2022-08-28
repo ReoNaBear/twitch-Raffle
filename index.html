@@ -665,7 +665,7 @@
     if (array[0] !== '') {
       if(index === 1){
         for (let i = 0; i < array.length; i+=2) {
-          if(isNaN(Number(array[i]))){
+          if(isNaN(Number(array[i + 1]))){
             finalData = finalData + `1 ${array[i]}\n`
             i = i -1
           } else {
