@@ -106,11 +106,11 @@
 
     .btn {
       line-height: 2.2;
-      border-radius: 0px 0px 12px 12px;
+      border-radius: 0px 0px calc(12vw/19.2) calc(12vw/19.2);
     }
 
     .multipleTransform.hand {
-      border-radius: 0px 0px 12px 12px;
+      border-radius: 0px 0px calc(12vw/19.2) calc(12vw/19.2);
     }
 
     .bar-item-circle {
@@ -407,11 +407,11 @@
         <div class="btn-group" role="group" aria-label="Basic outlined example">
           <div class="col-6">
             <button type="button" class="copy btn multipleTransformBtn deleteBtn"
-              style="border-radius: 0px 0px 0px 12px" onclick="deleteWinnerInList()">將中獎者從抽獎名單刪除</button>
+              style="border-radius: 0px 0px 0px calc(12vw/19.2)" onclick="deleteWinnerInList()">將中獎者從抽獎名單刪除</button>
           </div>
           <div class="col-6">
-            <button type="button" class="copy btn multipleTransformBtn" style="border-radius: 0px 0px 12px 0px;"
-              onclick="copy('winner')">複製中獎者名單(除去號碼)</button>
+            <button type="button" class="copy btn multipleTransformBtn"
+              style="border-radius: 0px 0px calc(12vw/19.2) 0px;" onclick="copy('winner')">複製中獎者名單(除去號碼)</button>
           </div>
         </div>
       </div>
