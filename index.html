@@ -113,6 +113,8 @@
       border-radius: 0px 0px calc(12vw/19.2) calc(12vw/19.2);
     }
 
+
+
     .bar-item-circle {
       height: 55px;
       width: 55px;
@@ -324,6 +326,45 @@
     .winnerNamesForm {
       border-radius: 20px;
     }
+
+
+
+    .multipleTransform,
+    .inputArea,
+    .winnerForm {
+      background-image: url(./img/NaJ2_bei.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: right;
+    }
+
+    .inputArea {
+      background-image: url(./img/NaJ2_hehe.png);
+    }
+
+    .winnerForm {
+      background-image: url(./img/NaJ2_smoke.png);
+    }
+
+    .machine-right,
+    .machine-left {
+      height: calc(360vw/19.2);
+      width: calc(360vw/19.2);
+      bottom: 0;
+      position: absolute;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    .machine-left {
+      background-image: url(./img/Character_base_YCHpack2-B8.gif);
+      left: 0;
+    }
+
+    .machine-right {
+      background-image: url(./img/Character_base_YCHpack2-A2.gif);
+      right: 0;
+    }
   </style>
 </head>
 
@@ -419,6 +460,8 @@
   </div>
   <div class="col-12" style="margin: 0; display:flex;">
     <div class="card slot-machine">
+      <div class="machine-left"></div>
+      <div class="machine-right"></div>
       <h3 class="card-title"><i class="fa-solid fa-trophy"></i> 抽獎拉霸機!</h3>
       <div class="award-name">當前獎項: <input type="text"></div>
       <h5 style=" text-align: center;"><i class="fa-solid fa-face-smile-wink"></i> 小提示: 點擊右方把手即可開始抽獎</h5>
